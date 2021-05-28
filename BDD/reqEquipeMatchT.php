@@ -38,7 +38,6 @@
 
 		return true ;
 		
-		exit();
 
     }
 
@@ -291,10 +290,85 @@
 		$id2 = strval($objTemp->idEquipe);
 		$score2 = strval($objTemp->score);
 
-		if($score1>=$score2)
+		if($score1>$score2)
 			return $id1 ;
 		else
 			return $id2 ;
+	}
+
+
+	function getIdEquipePerdante(int $idMatchT){
+
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM EquipeMatchT WHERE idMatchT = \"$idMatchT\";";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+
+		$objTemp = $res->fetch_object();
+
+		$id1 = strval($objTemp->idEquipe);
+		$score1 = strval($objTemp->score);
+
+		$objTemp = $res->fetch_object();
+
+		$id2 = strval($objTemp->idEquipe);
+		$score2 = strval($objTemp->score);
+
+		if($score1<$score2)
+			return $id1 ;
+		else
+			return $id2 ;
+	}
+
+	function estMatchNull(int $idMatchT){
+
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM EquipeMatchT WHERE idMatchT = \"$idMatchT\";";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+
+		$objTemp = $res->fetch_object();
+
+		$id1 = strval($objTemp->idEquipe);
+		$score1 = strval($objTemp->score);
+
+		$objTemp = $res->fetch_object();
+
+		$id2 = strval($objTemp->idEquipe);
+		$score2 = strval($objTemp->score);
+
+		return $score1 == $score2 ;
+
 	}
 
 ?>
