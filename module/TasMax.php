@@ -428,16 +428,13 @@
 					
 					echo'
 					<style>
-
 					#ligne1'.$i.' div:first-child {
 					margin-top:'.$l1marge.'px;}
-
 					#ligne1'.$i.' {
 					width: 70px; 
 					height:95%; 
 					float: left;
 					}
-
 					#ligne1'.$i.' div {
 					border: 1px solid white; 
 					border-left: none; 
@@ -458,23 +455,19 @@
 					
 					echo '
 					<style>
-
 					#ligne2'.$i.' div:first-child {
 					margin-top:'.$l2marge.'px;}
-
 					#ligne2'.$i.' {
 					width: 70px; 
 					height:95%; 
 					float: left;
 					}
-
 					#ligne2'.$i.' div {
 					border-top: 1px solid white; 
 					width:100%;
 					height:'.$espace.'px;
 					margin-bottom:'.$espace.'px;
 					}
-
 					</style>';
 					
 					echo '</div>';
@@ -545,7 +538,6 @@
 				text-align:center;
 				padding:10px 0 0 0;
 				float:left;
-
 				}
 				</style>
 				';

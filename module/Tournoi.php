@@ -85,6 +85,19 @@
 			$today = strtotime(date("d-m-Y"));
 			return ($dateTournoi>$today);
 		}
+		
+		public function toString()
+		{
+			$res = strval($this->m_idTournoi)." "
+				  .strval($this->m_nom)." "
+				  .strval($this->m_dateDeb)." "
+				  .strval($this->m_duree)." "
+				  .strval($this->m_idGestionnaire)." "
+				  .strval($this->m_lieu)." "
+				  .strval($this->m_nombreTotalEquipes);
+			
+			return $res;
+		}
 
 		public function tournoiPres(){
 			$k=0;
@@ -98,19 +111,6 @@
 						++$k;	
 			}
 			return ($k == $nbe);
-		}
-		
-		public function toString()
-		{
-			$res = strval($this->m_idTournoi)." "
-				  .strval($this->m_nom)." "
-				  .strval($this->m_dateDeb)." "
-				  .strval($this->m_duree)." "
-				  .strval($this->m_idGestionnaire)." "
-				  .strval($this->m_lieu)." "
-				  .strval($this->m_nombreTotalEquipes);
-			
-			return $res;
 		}
 		
 		public function toHTML()
