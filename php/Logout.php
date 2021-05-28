@@ -36,12 +36,34 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/styleRegLog.css" />
+		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
+		
+		<style>
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
+			}
+			
+			.container {
+				width:30%;
+				margin:auto;
+			}
+		</style>
+		
 		<script type="text/javascript" src="../js/LoginJS.js"></script>
 		<title>Déconnexion</title>
 	</head>
 	
 	<body>
+		<div class="bandeau-haut">
+			<a href="../index.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
+			</a>
+		</div>
+		
 		<form action="Logout.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Déconnexion</p>
@@ -53,11 +75,7 @@
 			
 			<button type="submit" class="loginbtn" name="envoiValeurs" value="Envoyer">Oui</button>
 			<button type="submit" class="loginbtn" name="retour" value="Envoyer">Non</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Effacer les champs</button>
 		</form>
-		
-		<div class="container">
-			<p>Pas encore de compte ? <a href="Register.php">Créer un compte</a>.</p>
-		</div>
+
 	</body>
 </html>

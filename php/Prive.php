@@ -1,5 +1,5 @@
 <?php
-	include '../BDD/reqUtilisateur.php';
+	include_once  '../BDD/reqUtilisateur.php';
 	
 	session_start();
 	
@@ -37,6 +37,7 @@
 			echo $_SESSION['motDePasse'];
 			
 			echo $br;
+			header('Location: ../index.php');
 		?>
 	</body>
 </html>

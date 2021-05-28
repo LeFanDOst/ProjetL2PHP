@@ -1,7 +1,7 @@
 <?php
-	include('Joueur.php');
+	include_once('Joueur.php');
 	
-	class Equipe
+	class Equipe extends Entite
 	{
 		private $m_idEquipe;
 		private $m_nomEquipe;
@@ -21,7 +21,11 @@
 			$this->m_niveau = $niveau;
 			$this->m_adresse = $adresse;
 			$this->m_numTel = $numTel;
-			$this->m_tabJoueurs = $tabJoueurs;
+			
+			$this->m_tabJoueurs = array();
+			
+			for($i=0;$i<count($tabJoueurs);++$i)
+				array_push($this->m_tabJoueurs, $tabJoueurs[$i]);
 		}
 		
 		public function getIdEquipe()
@@ -63,11 +67,79 @@
 		{
 			for($i=0;$i<sizeof($this->m_tabJoueurs);++$i)
 			{
-				if($this->m_tabJoueurs[$i]->getCapitaine())
+				if($this->m_tabJoueurs[$i]->getCapitaine() === true)
+				{
 					return $this->m_tabJoueurs[$i];
+				}
 			}
 			
 			return null;
+		}
+		
+		public function addCapitaine($cap)
+		{
+			if($this->getCapitaine())
+				return false;
+			
+			if(!($cap instanceof Joueur))
+				return false;
+			
+			if($cap->getIdEquipe() !== $this->m_idEquipe)
+				return false;
+			
+			if(!($cap->getCapitaine()))
+				return false;
+			
+			$tabTemp = array();
+			
+			array_push($tabTemp, $cap);
+			
+			for($i=0;$i<sizeof($this->m_tabJoueurs);++$i)
+				array_push($tabTemp, $this->m_tabJoueurs[$i]);
+			
+			$this->m_tabJoueurs = array();
+			
+			for($i=0;$i<sizeof($tabTemp);++$i)
+				array_push($this->m_tabJoueurs, $tabTemp[$i]);
+			
+			return true;
+		}
+		
+		public function toString()
+		{
+			$res = strval($this->m_idEquipe)." "
+				  .strval($this->m_nomEquipe)." "
+				  .strval($this->m_niveau)." "
+				  .strval($this->m_adresse)." "
+				  .strval($this->m_numTel)." "
+				  ."\n";
+			
+			for($i=0;$i<count($this->m_tabJoueurs);++$i)
+				$res = $res.strval($this->m_tabJoueurs[$i].toString())."\n";
+			
+			$res = $res.strval($this->m_placeTournoi);
+			
+			return $res;
+		}
+		
+		public function toHTML()
+		{
+			$res = "<p>"
+				  .strval($this->m_idEquipe)." <br />"
+				  .strval($this->m_nomEquipe)." <br />"
+				  .strval($this->m_niveau)." <br />"
+				  .strval($this->m_adresse)." <br />"
+				  .strval($this->m_numTel)." <br />"
+				  ."<br />";
+			
+			for($i=0;$i<count($this->m_tabJoueurs);++$i)
+				$res = $res.strval($this->m_tabJoueurs[$i].toHTML())."<br />";
+			
+			$res = $res
+				  .strval($this->m_placeTournoi)
+				  ."</p>";
+			
+			return $res;
 		}
 	}
 ?>
