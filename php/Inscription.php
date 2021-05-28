@@ -17,12 +17,18 @@
 	
 	$ut = getUtilisateurWithEmail($_SESSION['login']);
 	
-	if(!estGestionnaire($ut->getIdUtilisateur()))
+	$estGest = estGestionnaire($ut->getIdUtilisateur());
+	$estAdmin = ($ut->getRole() == "Administrateur");
+	
+	if(!$estGest && !$estAdmin)
 	{
-		trigger_error("Vous n'êtes pas un gestionnaire de tournoi.");
+		trigger_error("Vous n'êtes pas un gestionnaire de tournoi ni un administrateur du site.");
 	}
 	
-	$gestionnaire = getGestionnaire($ut->getIdUtilisateur());
+	$gestionnaire = null;
+	
+	if($estGest)
+		$gestionnaire = getGestionnaire($ut->getIdUtilisateur());
 	
 	if(!isset($_SESSION["idTournoi"]))
 	{
@@ -40,11 +46,17 @@
 	
 	$tournoi = getTournoi($idTournoi);
 	
-	if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
+	if(!$estAdmin)
 	{
-		trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
-		header('Location: ../index.php');
-		exit();
+		if($gestionnaire !== null)
+		{
+			if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
+			{
+				trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
+				header('Location: ../index.php');
+				exit();
+			}
+		}
 	}
 	
 	$tabEquipeTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
