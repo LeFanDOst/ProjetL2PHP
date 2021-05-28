@@ -150,20 +150,21 @@ $tournoi = getTournoi($id);
 					<button type"submit" id="btn1" name="inscriptions" value="" style="margin-bottom:1%">Consulter/modifier inscriptions</button>
 					</form>';
 				}
+				else{
+					if(sizeof($tabMatchs)!=($nbEquipesTotal-1))
+					{
+						echo'
+						<form action="SaisieDateTournoi.php" method="post">
+						<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
+						</form>';
 
-				if(sizeof($tabMatchs)!=($nbEquipesTotal-1))
-				{
-					echo'
-					<form action="SaisieDateTournoi.php" method="post">
-					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
-					</form>';
-
-				}
-				else
-				{
-					echo'<form action="SaisieMatchs.php" method="post">
-					<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
-					</form>';
+					}
+					else
+					{
+						echo'<form action="SaisieMatchs.php" method="post">
+						<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
+						</form>';
+					}
 				}
 		?>
 			<form action="Tournois.php" method="post">

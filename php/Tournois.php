@@ -1,5 +1,7 @@
 <?php
 	include_once('../BDD/reqEquipeTournoi.php');
+	include_once('../BDD/reqEquipeMatchT.php');
+	include_once('../BDD/reqMatchT.php');
 	$tabTournois= getAllTournoi();
 	session_start();
 	
@@ -48,6 +50,7 @@
 			header('Location: statutTournoiPasses.php');
 		}
 	}
+
 	
 	$_POST = array();
 
@@ -93,10 +96,27 @@
 				for($i=0;$i<sizeof($tabTournois);++$i)
 				{
 					$ville = explode("(",$tabTournois[$i]->getLieu())[0];
-
-
+					$tabMatchT = getAllMatchT($tabTournois[$i]->getIdTournoi());
+					$tournoiFinis = true;
+					if(sizeof($tabMatchT)==0)
+						$tournoiFinis = false;
+					else{
+						$MatchTaVerifier = $tabMatchT[(count($tabMatchT)-1)];
+						$tabEquipeMatchT = getEquipesMatchT($MatchTaVerifier->getIdMatchT());
+						if(sizeof($tabEquipeMatchT)==0)
+							$tournoiFinis = false;
+						else{
+							for($j = 0;$j<count($tabEquipeMatchT);$j++){
+								$score = $tabEquipeMatchT[$j]->getScore();
+								if($score == -1){
+									$tournoiFinis = false;
+									break;
+								}
+							}
+						}
+					}
 					echo'<tr>';
-					if($tabTournois[$i]->termine())
+					if($tournoiFinis)
 					{
 						echo '<td><button type=submit name="tournoiPasse" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
 						echo '<td>'.$ville.'</td>';
@@ -128,8 +148,27 @@
 				</tr>';
 				for($i=0;$i<sizeof($tabTournois);++$i)
 				{
+					$tabMatchT = getAllMatchT($tabTournois[$i]->getIdTournoi());
+					$tournoiFinis = true;
+					if(sizeof($tabMatchT)==0)
+						$tournoiFinis = false;
+					else{
+						$MatchTaVerifier = $tabMatchT[(count($tabMatchT)-1)];
+						$tabEquipeMatchT = getEquipesMatchT($MatchTaVerifier->getIdMatchT());
+						if(sizeof($tabEquipeMatchT)==0)
+							$tournoiFinis = false;
+						else{
+							for($j = 0;$j<count($tabEquipeMatchT);$j++){
+								$score = $tabEquipeMatchT[$j]->getScore();
+								if($score == -1){
+									$tournoiFinis = false;
+									break;
+								}
+							}
+						}
+					}
 					echo'<tr>';
-					if($tabTournois[$i]->enCours())
+					if($tabTournois[$i]->enCours() && ($tabTournois[$i]->tournoiPres()) && !$tournoiFinis )
 					{
 						$ville = explode("(",$tabTournois[$i]->getLieu())[0];
 						echo '<td><button type=submit name="tournoiEnCours" value="'.$tabTournois[$i]->getIdTournoi().'" class="btn">'.$tabTournois[$i]->getNom().'</button></td>';
@@ -164,7 +203,8 @@
 				for($i=0;$i<sizeof($tabTournois);++$i)
 				{
 					echo'<tr>';
-					if($tabTournois[$i]->aVenir())
+					echo $tabTournois[$i]->tournoiPres();
+					if($tabTournois[$i]->aVenir() || !($tabTournois[$i]->tournoiPres()))
 					{
 						$ville = explode("(",$tabTournois[$i]->getLieu())[0];
 						$k=0;
