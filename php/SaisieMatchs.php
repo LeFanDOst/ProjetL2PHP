@@ -10,9 +10,6 @@
 	include_once('../BDD/reqEquipeMatchT.php');
 	include_once('../module/TasMax.php');
 
-	//Si le nombre d'inscription n'atteint pas le bon nombre le gestionnaire pourra modifier le nbr d'équipes total dans la base de données
-
-	//Tester cas pour les non puissance de 2
 
 session_start();
 if(!isset($_SESSION['login']))
@@ -162,16 +159,6 @@ $id = $ut->getIdUtilisateur();
 			++$indexMatch;
 		}
 		++$z ;
-
-		/*for($i=$z;$i<$nbEquipesTotal-1;++$i)
-		{
-			$matchTemp = $tabMatchs[$i] ;
-			if($i>=$nbEquipesTotal/2)
-				echo'<tr><td style="font-weight: bold">Match n°'.$indexMatch.'</td><td> A venir </td><td> A venir </td><td>'.date("d/m/Y",strtotime($matchTemp->getDate())).' '.$matchTemp->getHoraire().'</td><td>A venir</td></tr>';
-			else
-				echo'<tr><td style="font-weight: bold">Match n°'.$indexMatch.'</td><td> - </td><td> - </td><td>'.date("d/m/Y",strtotime($matchTemp->getDate())).' '.$matchTemp->getHoraire().'</td></tr>';
-			++$indexMatch;
-		}*/
 
 		echo '</table>
 		</form>

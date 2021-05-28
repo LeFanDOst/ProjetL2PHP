@@ -85,7 +85,7 @@ $tournoi = getTournoi($id);
 <body>
 	<div class="bandeau-haut">
 		<?php 
-			echo'<h1>'.$tournoi->getNom().'</h1>';
+			echo'<h1>'.$tournoi->getNom().' (Championnat)</h1>';
 		?>
 	</div>
 	<hr>
@@ -143,50 +143,28 @@ $tournoi = getTournoi($id);
 				echo '</div>
 				<div class="bouton">';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				if($nbEquipesInscrites!=$nbEquipesTotal)
 				{
 					echo'
-					<form action="StatutTournoisAVenir.php" method="post">
+					<form action="StatutTournoisAVenir_Championnat.php" method="post">
 					<button type"submit" id="btn1" name="inscriptions" value="" style="margin-bottom:1%">Consulter/modifier inscriptions</button>
 					</form>';
 				}
+
+				if(sizeof($tabMatchs) != ($nbEquipesTotal * ($nbEquipesTotal-1) / 2))
+				{
+					echo sizeof($tabMatchs) ;
+					echo'
+					<form action="SaisieDateChampionnat.php" method="post">
+					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
+					</form>';
+
+				}
 				else
 				{
-
-					if(sizeof($tabMatchs)!=($nbEquipesTotal-1))
-					{
-						echo'
-						<form action="SaisieDateTournoi.php" method="post">
-						<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
-						</form>';
-
-					}
-					else
-					{
-						echo'<form action="SaisieMatchs.php" method="post">
-						<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
-						</form>';
-					}
+					echo'<form action="SaisieMatchsChampionnat.php" method="post">
+					<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
+					</form>';
 				}
 		?>
 			<form action="Tournois.php" method="post">
