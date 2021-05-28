@@ -85,6 +85,20 @@
 			$today = strtotime(date("d-m-Y"));
 			return ($dateTournoi>$today);
 		}
+
+		public function tournoiPres(){
+			$k=0;
+			$nbe = $this->getNombreTotalEquipes();
+			$id = $this->getIdTournoi();
+			$tabEquipes = getEquipeTournoiWithIdTournoi($id);
+			if(sizeof($tabEquipes)>0)
+			{
+				for($j=0;$j<sizeof($tabEquipes);++$j)
+					if($tabEquipes[$j]->getEstInscrite())
+						++$k;	
+			}
+			return ($k == $nbe);
+		}
 		
 		public function toString()
 		{
