@@ -352,28 +352,56 @@
 						
 						if($this->m_tabMatchs[$j] != null)
 						{
+							if ($this->m_tabMatchs[$j]->getScore() != -1)
+							{
+								if(($j % 2) == 0)
+								{
+									if($this->m_tabMatchs[$j]->getScore() <= $this->m_tabMatchs[($j - 1)]->getScore())
+									{
+										echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+									else
+									{
+										echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+								}
+								else
+								{
+									if($this->m_tabMatchs[$j]->getScore() < $this->m_tabMatchs[($j + 1)]->getScore())
+									{
+										echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+									else
+									{
+										echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									}
+								}
+							}
+							else 
+							{
 							if(($j % 2) == 0)
 							{
 								if($this->m_tabMatchs[$j]->getScore() <= $this->m_tabMatchs[($j - 1)]->getScore())
 								{
-									echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 								else
 								{
-									echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 							}
 							else
 							{
 								if($this->m_tabMatchs[$j]->getScore() < $this->m_tabMatchs[($j + 1)]->getScore())
 								{
-									echo '<div style="color:#e60000">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 								else
 								{
-									echo '<div style="color:#33ccff">'.$nom.'<p>'.$this->m_tabMatchs[$j]->getScore().'</p></div>';
+									echo '<div>'.$nom.'</div>';
 								}
 							}
+						}
 						}
 
 						else
