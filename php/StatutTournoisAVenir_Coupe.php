@@ -83,7 +83,14 @@
 		$nbEquipesDansPoules += sizeof($tabEq);
 	}
 	
-	echo "$nbEquipesDansPoules";
+	$nbMatchT = 0;
+	
+	for($i=0;$i<sizeof($tabPoules);++$i)
+	{
+		$nbEq = $tabPoules[$i]->getNbEquipes();
+		
+		$nbMatchT += ((($nbEq - 1) * $nbEq) / 2);
+	}
 
 	if(isset($_POST['inscriptions']))
 	{
@@ -237,7 +244,7 @@
 					</form>';
 				}
 
-				if(sizeof($tabMatchs) != ($nbEquipesTotal * ($nbEquipesTotal-1) / 2))
+				if(sizeof($tabMatchs) != $nbMatchT)
 				{
 					echo sizeof($tabMatchs);
 					echo'

@@ -237,6 +237,8 @@ INSERT INTO EquipeMatchT VALUES
 (12, 2, 8),
 (12, 10, -1);
 
+INSERT INTO Tournoi VALUES (5, 'QuÃªte Du Graal', '2021-06-28', 16, 2, 'Paimpont (48.038572;-2.146386)', 8);
+
 INSERT INTO EquipeTournoi VALUES
 (3, 5, 1),
 (4, 5, 1),
