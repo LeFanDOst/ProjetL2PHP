@@ -119,6 +119,32 @@ hr {
   width:20%;
 }
 
+.tabSpec {
+  border:; 
+  margin:auto;
+  margin-top:;
+  position:relative;
+  width:100%;
+  border:;
+}
+
+.tabSpec table{
+  width:100%;
+}
+
+.tabSpec tr, .tabSpec th, .tabSpec td, .tabSpec table {
+    border-collapse: collapse;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:black;
+    text-align:center;
+    border:1px solid black;
+}
+
+.tabSpec th, .tabSpec td {
+  width:20%;
+}
+
 button {
   background-color: #0d0d0d;
   color: white;

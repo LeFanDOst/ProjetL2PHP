@@ -66,18 +66,9 @@
 			return NULL;
 		}
 		
-
-		
 		$connexion->close();
 		return true;
 	}
-
-
-
-
-
-
-
 	
 	function estEquipe(string $id)
 	{

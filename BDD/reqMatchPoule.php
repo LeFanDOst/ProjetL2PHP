@@ -1,9 +1,9 @@
 <?php
 	include_once(realpath(dirname(__FILE__)).'/../BDD/reqGeneralBDD.php');
-	include_once(realpath(dirname(__FILE__)).'/../BDD/reqEquipe.php');
-	include_once(realpath(dirname(__FILE__)).'/../module/EquipePoule.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/MatchPoule.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/Poule.php');
 	
-	function insertEquipePoule(int $idEquipe, int $idPoule)
+	function insertMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -14,7 +14,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "INSERT INTO EquipePoule VALUES($idEquipe, $idPoule);";
+		$requete = "INSERT INTO MatchPoule VALUES($idEquipe1, $idEquipe2, $idMatchT, $score);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -22,10 +22,10 @@
 		
 		$connexion->close();
 		
-		return new EquipePoule($idEquipe, $idPoule);
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
 	}
 	
-	function estEquipePoule(string $idE, string $idP)
+	function estMatchPoule(string $idEquipe1, string $idEquipe2, string $idMatchT)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -36,7 +36,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idEquipe, idPoule FROM EquipePoule WHERE idEquipe = \"$idE\" AND idPoule = \"$idP\";";
+		$requete = "SELECT idEquipe1, idEquipe2, idMatchT FROM MatchPoule WHERE idEquipe1 = \"$idEquipe1\" AND idEquipe2 = \"$idEquipe2\" AND idMatchT = \"$idMatchT\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -52,21 +52,25 @@
 		if(!$objTemp)
 			return false;
 		
-		$idEquipe = strval($objTemp->idEquipe);
-		$idPoule = strval($objTemp->idPoule);
+		$idEquipe1 = strval($objTemp->idEquipe1);
+		$idEquipe2 = strval($objTemp->idEquipe2);
+		$idMatchT = strval($objTemp->idMatchT);
 		
 		$connexion->close();
 		
-		if(empty($idEquipe))
+		if(empty($idEquipe1))
 			return false;
 		
-		if(empty($idPoule))
+		if(empty($idEquipe2))
+			return false;
+		
+		if(empty($idMatchT))
 			return false;
 		
 		return true;
 	}
 	
-	function getEquipePoule(string $idE, string $idP)
+	function getMatchPoule(string $idEquipe1, string $idEquipe2, string $idMatchT)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -77,7 +81,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM EquipePoule WHERE idEquipe = \"$idE\" AND idPoule = \"$idP\";";
+		$requete = "SELECT * FROM MatchPoule WHERE idEquipe1 = \"$idEquipe1\" AND idEquipe2 = \"$idEquipe2\" AND idMatchT = \"$idMatchT\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -89,134 +93,146 @@
 		}
 		
 		$objTemp = $res->fetch_object();
-		$idEquipe = intval(strval($objTemp->idEquipe));
-		$idPoule = intval(strval($objTemp->idPoule));
+		$idEquipe1 = intval(strval($objTemp->idEquipe1));
+		$idEquipe2 = intval(strval($objTemp->idEquipe2));
+		$idMatchT = intval(strval($objTemp->idMatchT));
+		$score = intval(strval($objTemp->score));
 		
 		$connexion->close();
 		
-		if(empty(strval($idEquipe)))
+		if(empty(strval($idEquipe1)))
 			return NULL;
+		
+		if(empty(strval($idEquipe2)))
+			return NULL;
+		
+		if(empty(strval($idMatchT)))
+			return NULL;
+		
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
+	}
+
+	function getAllMatchPoule()
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM MatchPoule;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbMatchPoule = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabMatchPoule = array();
+		
+		if($nbMatchPoule == 0)
+			return $tabMatchPoule;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabMatchPoule, getMatchPoule($obj->idEquipe1, $obj->idEquipe2, $obj->idMatchT));
+		}
+		
+		return $tabMatchPoule;
+	}
+	
+	function getAllMatchPouleTournoi(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT MP.* FROM MatchPoule MP INNER JOIN MatchT M ON M.idMatchT = MP.idMatchT WHERE M.idTournoi = $idTournoi;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbMatchPoule = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabMatchPoule = array();
+		
+		if($nbMatchPoule == 0)
+			return $tabMatchPoule;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabMatchPoule, getMatchPoule($obj->idEquipe1, $obj->idEquipe2, $obj->idMatchT));
+		}
+		
+		return $tabMatchPoule;
+	}
+	
+	function getPouleWithMatchPoule($mp)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$idE1 = $mp->getIdEquipe1();
+		$idE2 = $mp->getIdEquipe2();
+		
+		$requete = "SELECT *
+		FROM Poule P
+		INNER JOIN EquipePoule EP ON EP.idPoule = P.idPoule
+		WHERE (EP.idEquipe IN (SELECT idEquipe1
+							   FROM MatchPoule
+							   WHERE idEquipe1 = $idE1))
+		   OR (EP.idEquipe IN (SELECT idEquipe2
+							   FROM MatchPoule
+							   WHERE idEquipe2 = $idE2));";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$objTemp = $res->fetch_object();
+		$idPoule = intval(strval($objTemp->idPoule));
+		$idTournoi = intval(strval($objTemp->idTournoi));
+		$nbEquipes = intval(strval($objTemp->nbEquipes));
+		
+		$connexion->close();
 		
 		if(empty(strval($idPoule)))
 			return NULL;
 		
-		return new EquipePoule($idEquipe, $idPoule);
-	}
-
-	function getAllEquipePoule()
-	{
-		include('DataBaseLogin.inc.php');
-		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-		
-		if($connexion->connect_error)
-		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
-		}
-		
-		$requete = "SELECT * FROM EquipePoule;";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-		{
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-			$connexion->close();
-			
-			return NULL;
-		}
-		
-		$nbEquipePoules = $res->num_rows;
-		
-		$connexion->close();
-		
-		$tabEquipePoules = array();
-		
-		if($nbEquipePoules == 0)
-			return $tabEquipePoules;
-		
-		while($obj = $res->fetch_object())
-		{
-			array_push($tabEquipePoules, getPoule($obj->idEquipe, $obj->idPoule));
-		}
-		
-		return $tabEquipePoules;
-	}
-	
-	function getAllEquipePouleWithIdPoule(string $idPoule)
-	{
-		include('DataBaseLogin.inc.php');
-		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-		
-		if($connexion->connect_error)
-		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
-		}
-		
-		$requete = "SELECT * FROM EquipePoule WHERE idPoule = \"$idPoule\";";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-		{
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-			$connexion->close();
-			
-			return NULL;
-		}
-		
-		$nbEquipePoules = $res->num_rows;
-		
-		$connexion->close();
-		
-		$tabEquipePoules = array();
-		
-		if($nbEquipePoules == 0)
-			return $tabEquipePoules;
-		
-		while($obj = $res->fetch_object())
-		{
-			array_push($tabEquipePoules, getEquipePoule($obj->idEquipe, $obj->idPoule));
-		}
-		
-		return $tabEquipePoules;
-	}
-	
-	function getAllEquipeOfPoule(int $idPoule)
-	{
-		include('DataBaseLogin.inc.php');
-		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-		
-		if($connexion->connect_error)
-		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
-		}
-		
-		$requete = "SELECT * FROM EquipePoule WHERE idPoule = $idPoule;";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-		{
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-			$connexion->close();
-			
-			return NULL;
-		}
-		
-		$nbEquipes = $res->num_rows;
-		
-		$connexion->close();
-		
-		$tabEquipes = array();
-		
-		if($nbEquipes == 0)
-			return $tabEquipes;
-		
-		while($obj = $res->fetch_object())
-		{
-			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
-		}
-		
-		return $tabEquipes;
+		return new Poule($idPoule, $idTournoi, $nbEquipes);
 	}
 ?>

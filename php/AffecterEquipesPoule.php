@@ -3,6 +3,9 @@
 	include_once('../BDD/reqPoule.php');
 	include_once('../BDD/reqEquipeTournoi.php');
 	include_once('../BDD/reqEquipePoule.php');
+	include_once('../BDD/reqMatchT.php');
+	include_once('../BDD/reqMatchPoule.php');
+	include_once('../module/FctGenerales.php');
 	
 	session_start();
 	
@@ -71,11 +74,47 @@
 		
 		if($verif)
 		{
+			$idP = $poule->getIdPoule();
+			
 			for($i=0;$i<$nbEquipesAAffecter;++$i)
 			{
 				$clefCourantePost = "eq".strval($i);
 				
-				$temp = insertEquipePoule($_POST[$clefCourantePost], $poule->getIdPoule());
+				$temp = insertEquipePoule($_POST[$clefCourantePost], $idP);
+			}
+			
+			echo "$idP";
+			$tabEqPoule = getAllEquipePouleWithIdPoule($idP);
+			
+			if(sizeof($tabEqPoule) == $poule->getNbEquipes())
+			{
+				$tabTemp = array();
+				
+				for($i=0;$i<sizeof($tabEqPoule);++$i)
+				{
+					for($j=0;$j<sizeof($tabEqPoule);++$j)
+					{
+						if($j != $i)
+						{
+							if(!combinaisonDejaPresente($tabTemp, $tabEqPoule[$i]->getIdEquipe(), $tabEqPoule[$j]->getIdEquipe()))
+							{
+								$tt = array();
+								
+								array_push($tt, $tabEqPoule[$i]->getIdEquipe());
+								array_push($tt, $tabEqPoule[$j]->getIdEquipe());
+								
+								array_push($tabTemp, $tt);
+							}
+						}
+					}
+				}
+				
+				$tabMatchT = getAllMatchT($tournoi->getIdTournoi());
+				
+				for($i=0;$i<sizeof($tabTemp);++$i)
+				{
+					$temp = insertMatchPoule($tabTemp[$i][0], $tabTemp[$i][1], $tabMatchT[$i]->getIdMatchT(), -1);
+				}
 			}
 			
 			header('Location: Tournois.php');
