@@ -24,6 +24,11 @@
 				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
 				header('Location: StatutTournoisAVenir_Championnat.php');
 			}
+			elseif(getTypeTournoi(strval($_POST['tournoi']))=="Coupe")
+			{
+				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;
+				header('Location: StatutTournoisAVenir_Coupe.php');
+			}
 			else
 			{
 				$_SESSION['tournoi'] = strval($_POST['tournoi']) ;

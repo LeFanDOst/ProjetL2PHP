@@ -1,12 +1,11 @@
 <?php
 	include_once(realpath(dirname(__FILE__)).'/../BDD/reqGeneralBDD.php');
-	include_once(realpath(dirname(__FILE__)).'/../module/Poule.php');
+	include_once(realpath(dirname(__FILE__)).'/../BDD/reqEquipe.php');
+	include_once(realpath(dirname(__FILE__)).'/../module/EquipePoule.php');
 	
-	function insertPoule(int $idTournoi, int $nbEquipes)
+	function insertEquipePoule(int $idEquipe, int $idPoule)
 	{
 		include('DataBaseLogin.inc.php');
-		
-		$idP = intval(chooseIntegerIdSequential("Poule", "idPoule"));
 		
 		$connexion = new mysqli($server, $user, $passwd, $db);
 	
@@ -15,7 +14,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "INSERT INTO Poule VALUES($idP, $idTournoi, $nbEquipes);";
+		$requete = "INSERT INTO EquipePoule VALUES($idEquipe, $idPoule);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -23,10 +22,10 @@
 		
 		$connexion->close();
 		
-		return new Poule($idP, $idTournoi, $nbEquipes);
+		return new EquipePoule($idEquipe, $idPoule);
 	}
 	
-	function estPoule(string $id)
+	function estEquipePoule(string $idE, string $idP)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -37,7 +36,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT idPoule FROM Poule WHERE idPoule = \"$id\";";
+		$requete = "SELECT idEquipe, idPoule FROM EquipePoule WHERE idEquipe = \"$idE\" AND idPoule = \"$idP\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -53,9 +52,13 @@
 		if(!$objTemp)
 			return false;
 		
+		$idEquipe = strval($objTemp->idEquipe);
 		$idPoule = strval($objTemp->idPoule);
 		
 		$connexion->close();
+		
+		if(empty($idEquipe))
+			return false;
 		
 		if(empty($idPoule))
 			return false;
@@ -63,7 +66,7 @@
 		return true;
 	}
 	
-	function getPoule(string $id)
+	function getEquipePoule(string $idE, string $idP)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -74,7 +77,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Poule WHERE idPoule = \"$id\";";
+		$requete = "SELECT * FROM EquipePoule WHERE idEquipe = \"$idE\" AND idPoule = \"$idP\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -86,19 +89,21 @@
 		}
 		
 		$objTemp = $res->fetch_object();
+		$idEquipe = intval(strval($objTemp->idEquipe));
 		$idPoule = intval(strval($objTemp->idPoule));
-		$idTournoi = intval(strval($objTemp->idTournoi));
-		$nbEquipes = intval(strval($objTemp->nbEquipes));
 		
 		$connexion->close();
+		
+		if(empty(strval($idEquipe)))
+			return NULL;
 		
 		if(empty(strval($idPoule)))
 			return NULL;
 		
-		return new Poule($idPoule, $idTournoi, $nbEquipes);
+		return new Poule($idEquipe, $idPoule);
 	}
 
-	function getAllPoule()
+	function getAllEquipePoule()
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -109,7 +114,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Poule ;";
+		$requete = "SELECT * FROM EquipePoule;";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -120,24 +125,24 @@
 			return NULL;
 		}
 		
-		$nbPoules = $res->num_rows;
+		$nbEquipePoules = $res->num_rows;
 		
 		$connexion->close();
 		
-		$tabPoules = array();
+		$tabEquipePoules = array();
 		
-		if($nbPoules == 0)
-			return $tabPoules;
+		if($nbEquipePoules == 0)
+			return $tabEquipePoules;
 		
 		while($obj = $res->fetch_object())
 		{
-			array_push($tabPoules, getPoule($obj->idPoule));
+			array_push($tabEquipePoules, getPoule($obj->idEquipe, $obj->idPoule));
 		}
 		
-		return $tabPoules;
+		return $tabEquipePoules;
 	}
 	
-	function compterPoulesTournoi(int $idTournoi)
+	function getAllEquipePouleWithIdPoule(string $idPoule)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -148,7 +153,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "SELECT * FROM Poule WHERE idTournoi = $idTournoi;";
+		$requete = "SELECT * FROM EquipePoule WHERE idPoule = \"$idPoule\";";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -159,49 +164,59 @@
 			return NULL;
 		}
 		
-		$nbPoules = $res->num_rows;
+		$nbEquipePoules = $res->num_rows;
 		
 		$connexion->close();
 		
-		return $nbPoules;
-	}
-	
-	function getAllPouleTournoi(int $idTournoi)
-	{
-		include('DataBaseLogin.inc.php');
+		$tabEquipePoules = array();
 		
-		$connexion = new mysqli($server, $user, $passwd, $db);
-		
-		if($connexion->connect_error)
-		{
-			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
-		}
-		
-		$requete = "SELECT * FROM Poule WHERE idTournoi = $idTournoi;";
-		
-		$res = $connexion->query($requete);
-		if(!$res)
-		{
-			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
-			$connexion->close();
-			
-			return NULL;
-		}
-		
-		$nbPoules = $res->num_rows;
-		
-		$connexion->close();
-		
-		$tabPoules = array();
-		
-		if($nbPoules == 0)
-			return $tabPoules;
+		if($nbEquipePoules == 0)
+			return $tabEquipePoules;
 		
 		while($obj = $res->fetch_object())
 		{
-			array_push($tabPoules, getPoule($obj->idPoule));
+			array_push($tabEquipePoules, getPoule($obj->idEquipe, $obj->idPoule));
 		}
 		
-		return $tabPoules;
+		return $tabEquipePoules;
+	}
+	
+	function getAllEquipeOfPoule(int $idPoule)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT * FROM EquipePoule WHERE idPoule = $idPoule;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbEquipes = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabEquipes = array();
+		
+		if($nbEquipes == 0)
+			return $tabEquipes;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
+		}
+		
+		return $tabEquipes;
 	}
 ?>

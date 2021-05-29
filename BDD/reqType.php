@@ -1,8 +1,6 @@
 <?php
 	include_once(realpath(dirname(__FILE__)).'/../BDD/reqTournoi.php');
-
-
-
+	
 	function insertType(int $idTournoi,string $type)
     {
         include('DataBaseLogin.inc.php');
@@ -65,9 +63,4 @@
 		
 		return $type ;
 	}
-
-
-
-
-
 ?>

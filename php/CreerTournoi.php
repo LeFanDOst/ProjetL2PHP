@@ -79,7 +79,6 @@
 			$idT = getIdTournoiByName($_POST['nom']) ;
 			insertType($idT,$_POST['type']);
 		}
-
 	}
 
 	$_POST = array();

@@ -1,55 +1,30 @@
 <?php
-	include_once('Entite.php');
-	include_once(realpath(dirname(__FILE__)).'/../BDD/reqPoule.php');
-	
-	class Poule extends Entite
+	class Poule
 	{
 		private $m_idPoule;
-		private $m_idTournoi ;
-		private $m_nbEquipes ;
+		private $m_idTournoi;
+		private $m_nbEquipes;
 		
-		//Constructeur
-		public function __construct(int $idPoule, int $idTournoi, int $nbEquipes)
+		public function __construct(int $idP, int $idT, int $nbEq)
 		{
-			$this->m_idPoule = $idPoule;
-			$this->m_idTournoi = $idTournoi ;
-			$this->m_nbEquipes = $nbEquipes ;
+			$this->m_idPoule = $idP;
+			$this->m_idTournoi = $idT;
+			$this->m_nbEquipes = $nbEq;
 		}
-		
-		//ACESSEURS EN LECTURE
 		
 		public function getIdPoule()
 		{
 			return $this->m_idPoule;
 		}
 		
-		public function getIdTournoi()
+		public function getTournoi()
 		{
 			return $this->m_idTournoi;
 		}
-
+		
 		public function getNbEquipes()
 		{
 			return $this->m_nbEquipes;
 		}
-
-
-		//ACESSEURS EN ECRITURE
-		
-		public function setIdPoule($idPoule)
-		{
-			$this->m_idPoule = $idPoule;
-		}
-
-		public function setIdTournoi($idTournoi)
-		{
-			$this->m_idTournoi = $idTournoi;
-		}
-
-		public function setNbEquipes($nbEquipes)
-		{
-			$this->m_nbEquipes = $nbEquipes;
-		}
-
 	}
 ?>

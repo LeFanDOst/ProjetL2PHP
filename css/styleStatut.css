@@ -55,6 +55,33 @@ hr {
   width:50%;
 }
 
+#tabPoules {
+  border:2px solid black ; 
+  margin:auto;
+  margin-bottom:50px;
+  position:relative;
+  width:60%;
+  background-color:#333333;
+}
+
+#tabPoules table{
+  width:100%;
+}
+
+#tabPoules tr, #tabPoules th, #tabPoules td, #tabPoules table {
+    border-collapse: collapse;
+    border:2px solid white ; 
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-size:20px;
+    color:white;
+    text-align:center;
+    
+}
+
+#tabPoules th, #tabPoules td {
+  width:50%;
+}
+
 
 .container-main2 {
   margin:auto;
@@ -109,6 +136,12 @@ button:hover {
 
 
 #btn1, #btn2 {
+  border:1px solid white;
+  width:100%;
+  margin:auto;
+}
+
+.btn {
   border:1px solid white;
   width:100%;
   margin:auto;

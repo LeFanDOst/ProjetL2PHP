@@ -222,9 +222,6 @@
 		return $tabEquipes;
 	}
 
-
-
-
 	function getAllEquipesByNiveau(int $idTournoi)
 	{
 		include('DataBaseLogin.inc.php');
@@ -264,5 +261,132 @@
 		
 		return $tabEquipes;
 	}
-
+	
+	function getAllEquipeOfTournoi(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT E.* FROM Equipe E INNER JOIN EquipeTournoi ET ON ET.idTournoi = $idTournoi;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbEquipes = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabEquipes = array();
+		
+		if($nbEquipes == 0)
+			return $tabEquipes;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
+		}
+		
+		return $tabEquipes;
+	}
+	
+	function getAllEquipeOfTournoiNotInPoule(int $idTournoi, int $idPoule)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT E.*
+FROM Equipe E
+INNER JOIN EquipeTournoi ET ON ET.idEquipe = E.idEquipe
+WHERE ET.idTournoi = $idTournoi AND E.idEquipe NOT IN (
+                          SELECT EP.idEquipe
+                          FROM EquipePoule EP
+                          WHERE EP.idPoule = $idPoule);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbEquipes = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabEquipes = array();
+		
+		if($nbEquipes == 0)
+			return $tabEquipes;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
+		}
+		
+		return $tabEquipes;
+	}
+	
+	function getAllEquipeOfTournoiNotInAnyPoule(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT E.*
+FROM Equipe E
+INNER JOIN EquipeTournoi ET ON ET.idEquipe = E.idEquipe
+WHERE ET.idTournoi = $idTournoi AND E.idEquipe NOT IN (
+                          SELECT EP.idEquipe
+                          FROM EquipePoule EP);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbEquipes = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabEquipes = array();
+		
+		if($nbEquipes == 0)
+			return $tabEquipes;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabEquipes, getEquipe(strval($obj->idEquipe)));
+		}
+		
+		return $tabEquipes;
+	}
 ?>
