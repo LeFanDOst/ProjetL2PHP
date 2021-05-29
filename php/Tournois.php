@@ -43,6 +43,11 @@
 				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
 				header('Location: StatutTournoisEnCours_Championnat.php');
 			}
+			elseif(getTypeTournoi(strval($_POST['tournoiEnCours']))=="Coupe")
+			{
+				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
+				header('Location: StatutTournoisEnCours_Coupe.php');
+			}
 			else
 			{
 				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
@@ -72,6 +77,11 @@
 			{
 				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
 				header('Location: StatutTournoisEnCours_Championnat.php');
+			}
+			elseif(getTypeTournoi(strval($_POST['tournoiEnCours']))=="Coupe")
+			{
+				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
+				header('Location: StatutTournoisEnCours_Coupe.php');
 			}
 			else
 			{

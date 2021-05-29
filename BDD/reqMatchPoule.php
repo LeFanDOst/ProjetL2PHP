@@ -25,6 +25,28 @@
 		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
 	}
 	
+	function updateScoreMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "UPDATE MatchPoule SET score = $score WHERE idEquipe1 = $idEquipe1 AND idEquipe2 = $idEquipe2 AND idMatchT = $idMatchT;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+		
+		$connexion->close();
+		
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
+	}
+	
 	function estMatchPoule(string $idEquipe1, string $idEquipe2, string $idMatchT)
 	{
 		include('DataBaseLogin.inc.php');

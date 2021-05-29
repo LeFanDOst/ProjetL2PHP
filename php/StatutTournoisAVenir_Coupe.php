@@ -255,7 +255,7 @@
 				else
 				{
 					echo'<form action="SaisieMatchsCoupe.php" method="post">
-					<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
+					<button type="submit" id="btn2" name="setDate" value="">Consulter Matchs</button>
 					</form>';
 				}
 				
