@@ -69,12 +69,11 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
-		
 		<style>
-			body div img {
-				width:50px;
-				border:5px groove white;
-				padding:5px;
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
 				float:left;
 			}
 		</style>
@@ -84,9 +83,10 @@
 	</head>
 	
 	<body>
-		<div>
+		<div class="bandeau-haut">
 			<a href="../index.php">
-			<img src="../img/home.png">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
 			</a>
 		</div>
 		
@@ -95,7 +95,7 @@
 				<p style="text-align: center;">Inscription</p>
 			</h1>
 			
-			<p style="text-align: center;">Entrez vos information pour créer votre compte</p>
+			<p style="text-align: center;">Entrez vos informations pour vous inscrire</p>
 			
 			<hr>
 			
@@ -116,7 +116,7 @@
 			
 			<br>
 			
-			<b>Sélectionnez votre rôle dans le tournoi</b>
+			<b>Rôle</b>
 			
 			</br>
 			
@@ -143,8 +143,7 @@
 			
 			<hr>
 			
-			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
+			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">S'inscrire</button>
 		</form>
 		
 		<div class="container-signin">

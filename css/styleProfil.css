@@ -1,0 +1,158 @@
+* {box-sizing: border-box}
+
+.bandeau-haut {
+  height: 90px;
+  width:100%;
+  background-color:rgb(255, 255, 255);
+  margin-top:0;
+
+}
+
+@font-face{
+  font-family:"tournois";
+  src:url(../font/OpenSansCondensed-Bold.ttf);
+}
+
+h3 {
+  font-family:tournois;
+  font-size:25px;
+  padding:15px 0 0 0;
+  float:left;
+  margin:10px 0 0 20px;
+  color:black;
+}
+
+.bandeau-haut h3:hover{
+  color:#0073e6;
+  border-bottom:2px solid black;
+}
+
+
+#body {
+  background-color:#f2f2f2;
+  background-image:url('../img/blur2.jpg');
+  background-size:cover;
+  background-attachment:fixed;
+  margin:0%;
+}
+
+
+#container-main{
+	border:2px solid black;
+	margin:auto;
+	margin-top:5%;
+	margin-bottom:2%;
+	position:relative;
+	width:60%;
+  height:100%; 
+  background-color:white;
+  font-size:20px;
+}
+
+p{
+	font-family:tournois;
+}
+
+hr{
+  background-color:black;
+  height:5px;
+}
+
+#container-main table, #container-main2 tr, #container-main2th, #container-main2 td {
+	font-family:tournois;
+	font-size:22px;
+	width:90%;
+	padding-bottom:20px;
+}
+
+.envoi {
+  background-color: #0d0d0d;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 90%;
+  opacity: 0.9;
+  border-radius:5px;
+}
+
+.envoi:hover {
+  opacity:1;
+  color:red;
+}
+
+#tab{
+	border:2px solid black;
+	margin:auto;
+	margin-top:2%;
+	position:relative;
+	width:1200px;
+	height:100%;
+
+	background-color:#333333;
+}
+
+#tab table{
+ 	width:100%;
+}
+
+#tab th {
+
+  	border-collapse: collapse;
+  	border:2px solid white ; 
+ 	  font-family: tournois;
+  	font-size:20px;
+  	color:white;
+  	text-align:center;
+}
+
+#tab table, #tab td {
+
+  	border-collapse: collapse;
+  	border:2px solid white ; 
+ 	font-family:tournois;
+  	font-size:20px;
+  	color:white;
+  	text-align:center;
+}
+
+#tab2{
+	border:2px solid black;
+	margin:auto;
+	margin-top:2%;
+	position:relative;
+	width:1500px;
+	height:100%;
+	box-shadow: 10px 10px grey;
+	background-color:#333333;
+}
+
+#tab2 table{
+	height:;
+ 	width:100%;
+ 	
+}
+
+#tab2 th {
+
+  	border-collapse: collapse;
+  	border:2px solid white ; 
+ 	font-family: tournois;
+  	font-size:20px;
+  	color:white;
+  	text-align:center;
+}
+
+#tab2 table, #tab2 td {
+
+  	border-collapse: collapse;
+  	border:2px solid white ; 
+ 	font-family: tournois;
+  	font-size:20px;
+  	color:white;
+  	text-align:center;
+}
+
+
+

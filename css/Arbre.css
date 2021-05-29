@@ -3,13 +3,11 @@
 -Affichage foireux avec écran taille téléphone
 */
 body {
-    background-image:url('../img/back.jpg');
+    background-image:url('../img/blur2.jpg');
     background-attachment:fixed;
     background-size:cover;
 }
 #container {
-    /*width: 100%;*/ /*mettre en pixels?*/
-    /*height: 1800px;*/
     float:left;
 }
 section {
@@ -34,4 +32,43 @@ section div p {
     margin-top:-19px;
     margin-left:85%;
     font-weight: bold;
+}
+
+button {
+  background-color: #0d0d0d;
+  color: white;
+  padding: 16px 20px;
+  opacity: 0.9;
+  border-radius:5px;
+  width:50%;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity:1;
+  color:red;
+}
+
+
+#btn1, #btn2 {
+  border:1px solid white;
+  width:100%;
+  margin:auto;
+}
+
+.bandeau-haut{
+  width:100%;
+  height:70px;
+  background-color:#e6e6e6;
+  margin-top:0;
+}
+hr {
+  border:6px solid #800000;
+}
+
+h1 {
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size:75px;
+  margin-top:0;
+  text-align:center;
 }

@@ -1,32 +1,63 @@
 * {box-sizing: border-box}
 
+.bandeau-haut {
+  height: 90px;
+  width:100%;
+  background-color:rgb(255, 255, 255);
+  margin-top:0;
+
+}
+
+@font-face{
+  font-family:"tournois";
+  src:url(../font/OpenSansCondensed-Bold.ttf);
+}
+
+h3 {
+  font-family:tournois;
+  font-size:25px;
+  padding:15px 0 0 0;
+  float:left;
+  margin:10px 0 0 20px;
+  color:black;
+
+}
+
 .container {
   padding: 16px;
   color:white;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family:tournois;
 }
 
-.container a:hover{color:red;}
-a {color:yellow;}
+.bandeau-haut h3:hover{
+  color:#0073e6;
+  border-bottom:2px solid black;
+}
+
+
+.container a:hover, .container-signin a:hover,.container-logout a:hover {color:red;}
+.container a, .container-signin a, .container-logout a {color:#0073e6;}
 
 body {
-  background-image:url(../img/back.jpg);
+  background-image:url(../img/blur2.jpg);
   background-size:cover;
   background-attachment:fixed;
+  margin:0%;
 }
 
 .cadre {
   margin:auto;
   height:480px;
   width:500px;
-  margin-top:5%;
+  margin-top:3%;
 }
 
 h1 p {
   text-align:center;
   color:white;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: tournois;
   font-size:50px;
+  letter-spacing:1px
 }
 
 .container_role{
@@ -35,7 +66,7 @@ h1 p {
   border-radius:5px;
 }
 
-/* Full-width input fields */
+
 input[type=text], input[type=password], input[type=email] {
   width: 100%;
   padding: 15px;
@@ -50,6 +81,25 @@ input[type=text], input[type=password], input[type=email] {
 }
 
 input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
+  background-color: #ffffb3;
+  outline: none;
+}
+
+#NumTel {
+  width: 100%;
+  padding: 15px;
+  height:50px;
+  margin: 15px 0 15px 0;
+  display: inline-block;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  border: none;
+  background:white;
+  border-radius:5px;
+  font-size:20px;
+  color:black;
+}
+
+#NumTel:focus {
   background-color: #ffffb3;
   outline: none;
 }
@@ -69,6 +119,7 @@ hr {
   width: 100%;
   opacity: 0.9;
   border-radius:5px;
+  font-size:15px;
 }
 
 .registerbtn:hover {
@@ -95,21 +146,16 @@ form {
   margin:auto;
   width:500px;
   color:white;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-}
-.container-signin a:hover {
-  color:red;
+  font-family:tournois;
 }
 
 .container-logout {
   margin:auto;
   width:500px;
   color:white;
-  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family:tournois;
 }
-.container-logout a:hover {
-  color:red;
-}
+
 .erreur {
 	background-color: #ff9900;
 	color: #ff0000;

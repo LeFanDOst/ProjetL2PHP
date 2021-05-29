@@ -17,23 +17,22 @@
 	
 	$ut = getUtilisateurWithEmail($_SESSION['login']);
 	
-	if(!estGestionnaire($ut->getIdUtilisateur()))
+	$estGest = estGestionnaire($ut->getIdUtilisateur());
+	$estAdmin = ($ut->getRole() == "Administrateur");
+	
+	if(!$estGest && !$estAdmin)
 	{
-		trigger_error("Vous n'êtes pas un gestionnaire de tournoi.");
-		/*header('Location: index.php');
-		exit();*/
+		trigger_error("Vous n'êtes pas un gestionnaire de tournoi ni un administrateur du site.");
 	}
 	
-	$gestionnaire = getGestionnaire($ut->getIdUtilisateur());
-	$br = "<br />";
-	/*echo $gestionnaire->toString();
-	echo $br;*/
+	$gestionnaire = null;
+	
+	if($estGest)
+		$gestionnaire = getGestionnaire($ut->getIdUtilisateur());
 	
 	if(!isset($_SESSION["idTournoi"]))
 	{
 		trigger_error("ERREUR : Vous n'avez choisi aucun tournoi !");
-		/*header('Location: index.php');
-		exit();*/
 	}
 	
 	$idTournoi = ((int)strval($_SESSION["idTournoi"]));
@@ -41,18 +40,23 @@
 	if(!estTournoi($idTournoi))
 	{
 		trigger_error("ERREUR : Le tournoi sélectionné est invalide !");
-		header('Location: index.php');
+		header('Location: ../index.php');
 		exit();
 	}
 	
 	$tournoi = getTournoi($idTournoi);
-	//echo $tournoi->toString();
 	
-	if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
+	if(!$estAdmin)
 	{
-		trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
-		header('Location: index.php');
-		exit();
+		if($gestionnaire !== null)
+		{
+			if($tournoi->getIdGestionnaire() !== $gestionnaire->getIdGestionnaire())
+			{
+				trigger_error("ERREUR : Vous n'êtes pas le gestionnaire du tournoi que vous avez sélectionné.");
+				header('Location: ../index.php');
+				exit();
+			}
+		}
 	}
 	
 	$tabEquipeTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
@@ -89,9 +93,6 @@
 		$equipeEstInscrite = $tabEquipeTournoi[$i]->getEstInscrite();
 		$insValTxt = (($equipeEstInscrite) ? "Oui" : "Non");
 		
-		/*echo $nomEquipe;
-		echo $br;
-		echo $idEquipe;*/
 		
 		$corpsTableau = $corpsTableau
 						."<tr>
@@ -167,24 +168,35 @@
 		<link rel="stylesheet" type="text/css" href="../css/styleLogin.css" />
 		<script type="text/javascript" src="../js/InscriptionJS.js"></script>
 		<title>Inscription</title>
+		<style>
+			body .bandeau-haut img {
+				width:70px;
+				padding:5px 0 0 5px;
+				margin:5px 0 0 5px;
+				float:left;
+			}
+
+			.tableauClassique td,.tableauClassique th {
+				width: 15%;
+				text-align:center;
+			}
+
+		</style>
 	</head>
 	
 	<body>
-		<div>
-			<a href="Login.php">Se connecter</a>
-			<a href="Logout.php">Se déconnecter</a>
-			<a href="Register.php">Créer un compte</a>
-			<a href="CreerEquipe.php">Créer une équipe</a>
-			<a href="Preinscription.php">Pré-inscrire une équipe</a>
-			<a href="ChoixInscription.php">Gérer les inscriptions d'un tournoi</a>
+		<div class="bandeau-haut">
+			<a href="Tournois.php">
+				<img src="../img/prev.png">
+				<h3>RETOUR</h3>
+			</a>
 		</div>
+
 		
 		<form action="Inscription.php" method="POST" onreset="return vider();" class="container">
 			<h1>
 				<p style="text-align: center;">Inscription</p>
 			</h1>
-			
-			<p style="text-align: center;">Sélectionnez les équipes à inscrire ou à retirer du tournoi.</p>
 			
 			<hr>
 			
@@ -198,10 +210,11 @@
 			<?php
 				echo $tableau;
 			?>
+			<br/>
 			<hr>
 			
-			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Voilà</button>
-			<button type="reset" name="effacerValeurs" value="Effacer">Voilà 2</button>
+			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Valider</button>
+			<button type="reset" name="effacerValeurs" value="Effacer">Effacer les champs</button>
 		</form>
 	</body>
 </html>
