@@ -117,7 +117,7 @@
 	<body>
 		<div class="bandeau-haut">
 			<?php 
-				echo'<h1>'.$tournoi->getNom().' (Coupe)</h1>';
+				echo'<h1>'.$tournoi->getNom().' (Tournoi avec poules)</h1>';
 			?>
 		</div>
 		
@@ -206,7 +206,7 @@
 					$idPouleCourante = $tabPoules[$i]->getIdPoule();
 					echo $idPouleCourante;
 					
-					$formModifPoule = "<form action=\"StatutTournoisAVenir_Coupe.php\" method=\"post\">
+					$formModifPoule = "<form action=\"StatutTournoisAVenir_Poule.php\" method=\"post\">
 					<button type\"submit\" name=\"ModifPoule\" value=\"$idPouleCourante\" style=\"margin-bottom:1%\" class=\"btn\">Affecter</button>
 					</form>";
 					
@@ -231,7 +231,7 @@
 				if($nbEquipesInscrites!=$nbEquipesTotal)
 				{
 					echo'
-					<form action="StatutTournoisAVenir_Coupe.php" method="post">
+					<form action="StatutTournoisAVenir_Poule.php" method="post">
 					<button type"submit" id="btn1" name="inscriptions" value="" style="margin-bottom:1%">Consulter/modifier inscriptions</button>
 					</form>';
 				}
@@ -248,13 +248,13 @@
 				{
 					echo sizeof($tabMatchs);
 					echo'
-					<form action="SaisieDateCoupe.php" method="post">
+					<form action="SaisieDatePoule.php" method="post">
 					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
 					</form>';
 				}
 				else
 				{
-					echo'<form action="SaisieMatchsCoupe.php" method="post">
+					echo'<form action="SaisieMatchsPoule.php" method="post">
 					<button type="submit" id="btn2" name="setDate" value="">Consulter Matchs</button>
 					</form>';
 				}

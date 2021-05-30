@@ -38,73 +38,26 @@
 	$tournoi = getTournoi($id);
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	
+	$tabMatchPoules = getAllMatchPouleTournoi($tournoi->getIdTournoi());
 	$tabPoules = getAllPouleTournoi($tournoi->getIdTournoi());
+	$tabEquipes = getAllEquipeOfTournoi($tournoi->getIdTournoi());
 	
-	$estBon = true;
-	$nbMatchPoule = 0;
-	
-	$tabMatchPoulesVerif = getAllMatchPouleTournoi($tournoi->getIdTournoi());
-	
-	for($i=0;$i<sizeof($tabPoules);++$i)
+	if(isset($_POST) && isset($_POST["EnvoyerValeurs"]))
 	{
-		$nbEq = $tabPoules[$i]->getNbEquipes();
-		
-		$nbMP = ((($nbEq - 1) * $nbEq) / 2);
-		
-		$nbMatchPoule += $nbMP;
-	}
-	
-	echo $nbMatchPoule;
-	echo sizeof($tabMatchPoulesVerif);
-	
-	if($nbMatchPoule > sizeof($tabMatchPoulesVerif))
-	{
-		for($i=0;$i<sizeof($tabPoules);++$i)
+		for($i=0;$i<sizeof($tabMatchPoules);++$i)
 		{
-			echo $i;
-			$tabEqPoule = getAllEquipePouleWithIdPoule($tabPoules[$i]->getIdPoule());
-			$poule = $tabPoules[$i];
-					
-			if(sizeof($tabEqPoule) == $poule->getNbEquipes())
-			{
-				$tabTemp = array();
-				
-				for($j=0;$j<sizeof($tabEqPoule);++$j)
-				{
-					for($k=0;$k<sizeof($tabEqPoule);++$k)
-					{
-						if($k != $j)
-						{
-							if(!combinaisonDejaPresente($tabTemp, $tabEqPoule[$j]->getIdEquipe(), $tabEqPoule[$k]->getIdEquipe()))
-							{
-								$tt = array();
-								
-								array_push($tt, $tabEqPoule[$j]->getIdEquipe());
-								array_push($tt, $tabEqPoule[$k]->getIdEquipe());
-								
-								array_push($tabTemp, $tt);
-							}
-						}
-					}
-				}
-				
-				$tabMatchT = getAllMatchT($tournoi->getIdTournoi());
-				
-				for($j=0;$j<sizeof($tabTemp);++$j)
-				{
-					$tt = $tabTemp[$j];
-					
-					$idE1 = $tt[0];
-					$idE2 = $tt[1];
-					
-					$temp = insertMatchPoule($idE1, $idE2, $tabMatchT[$j]->getIdMatchT(), -1, -1);
-				}
-			}
+			$score1 = rand(1, 15);
+			$score2 = rand(1, 15);
+			
+			while($score2 === $score1)
+				$score2 = rand(1, 15);
+			
+			updateScoreMatchPoule($tabMatchPoules[$i]->getIdEquipe1(), $tabMatchPoules[$i]->getIdEquipe2(), $tabMatchPoules[$i]->getIdMatchT(), $score1, $score2);
+			header('Refresh:0; url=StatutTournoisEnCours_Poule.php');
 		}
 	}
 	
-	$tabMatchPoules = getAllMatchPouleTournoi($tournoi->getIdTournoi());
-	$tabEquipes = getAllEquipeOfTournoi($tournoi->getIdTournoi());
+	$_POST = array();
 ?>
 
 <!DOCTYPE html>
@@ -137,7 +90,7 @@
 					echo"
 					<table>
 						<tr>
-							<th colspan=\"5\">
+							<th colspan=\"4\">
 								<h2 style=\"text-align:center; margin:5px\"> 
 									Poule N°$numPouleCourante
 								</h2>
@@ -148,8 +101,8 @@
 							<th rowspan=\"1\">Matchs</th>
 							<th>Equipe A</th>
 							<th>Equipe B</th>
-							<th>Date/Horaire</th>
-							<th>Statut match</th>
+							<th>Score 1</th>
+							<th>Score 2</th>
 						</tr>";
 					
 					for($j=0;$j<sizeof($tabMatchPoules);++$j)
@@ -164,8 +117,8 @@
 						
 						$matchT = getMatchT($tabMatchPoules[$j]->getIdMatchT());
 						
-						$dateMatchT = $matchT->getDate();
-						$horaireMatchT = $matchT->getHoraire();
+						$scoreMatchPoules1 = $tabMatchPoules[$j]->getScore1();
+						$scoreMatchPoules2 = $tabMatchPoules[$j]->getScore2();
 						
 						$pouleCourante = getPouleWithMatchPoule($tabMatchPoules[$j]);
 						
@@ -174,8 +127,8 @@
 							echo "<tr><td>$matchCourant</td>
 							<td>$nomEquipeA</td>
 							<td>$nomEquipeB</td>
-							<td>$dateMatchT $horaireMatchT</td>
-							<td>Validé</td></tr>";
+							<td>$scoreMatchPoules1</td>
+							<td>$scoreMatchPoules2</td>";
 						}
 					}
 					
@@ -184,7 +137,8 @@
 				}
 			?>
 			
-			<form action="StatutTournoisAVenir_Coupe.php" method="post">
+			<form action="StatutTournoisEnCours_Poule.php" method="post">
+				<input type="submit" name="EnvoyerValeurs" value="Saisir scores aléatoires">
 				<button type="submit" id="btn2" value="">Retour</button>
 			</form>
 		</div>

@@ -99,7 +99,7 @@
 							<td>$nomTournoi</td>
 							<td>$nomEquipe</td>
 							<td>
-								<input type=\"radio\" name=\"Ins$idEquipe\" checked id=\"Ins$idEquipe\" class=\"choixInscription\" value=\"Ins$idEquipe\" onclick=\"document.getElementById('Ret$idEquipe').checked = false\">
+								<input type=\"radio\" name=\"Ins$idEquipe\" checked id=\"Ins$idEquipe\" class=\"choixInscription\" value=\"Ins$idEquipe\" onclick=\"document.getElementById('Ret$idEquipe').checked = false\" checked>
 							</td>
 							<td>
 								<input type=\"radio\" name=\"Ins$idEquipe\" id=\"Ret$idEquipe\" class=\"choixRetirer\" value=\"Ret$idEquipe\" onclick=\"document.getElementById('Ins$idEquipe').checked = false\">

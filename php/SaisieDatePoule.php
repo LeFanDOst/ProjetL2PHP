@@ -37,7 +37,7 @@
 	if(sizeof($tabMatchs)==$nbe-1)
 	{
 		trigger_error("Les dates des matchs de ce tournoi sont déjà définies !");
-		header ('Location: StatutTournoisAVenir_Coupe.php');
+		header ('Location: StatutTournoisAVenir_Poule.php');
 	}
 
 
@@ -77,7 +77,7 @@
 				insertMatchT($_SESSION['tournoi'],$date,$horaire);
 			}
 		
-		header ('Location: StatutTournoisAVenir_Coupe.php');
+		header ('Location: StatutTournoisAVenir_Poule.php');
 	}
 	
 	$_POST = array();
@@ -86,7 +86,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<title>Saisie dates Coupe</title>
+		<title>Saisie dates Poule</title>
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script> 
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.9/jquery.datetimepicker.full.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.9/jquery.datetimepicker.css " /> 
@@ -110,7 +110,7 @@
 	<body>
 	<div class="bandeau-haut">
 		<?php 
-			echo'<h1>'.$TournoiEnGestion->getNom().' (Coupe)</h1>';
+			echo'<h1>'.$TournoiEnGestion->getNom().' (Tournoi avec poules)</h1>';
 		?>
 	</div>
 	<hr>
@@ -125,7 +125,7 @@
 			$dureeDechaquetour = ($TournoiEnGestion->getDuree()) / ($tasTournoi->nbTours() + 1);
 			$dureeDechaquetour = (int)$dureeDechaquetour;
 			$dateDeb = strtotime($TournoiEnGestion->getDateDeb());
-			echo '<form method="post" action="SaisieDateCoupe.php" >';
+			echo '<form method="post" action="SaisieDatePoule.php" >';
 			echo '
 			<div id="tabDates" style="width:60%">
 			<table style="height:100%">
