@@ -98,6 +98,8 @@
 		
 		return true;
 	}
+
+
 	
 	function estEquipeTournoi(string $idE, string $idT)
 	{
@@ -280,6 +282,57 @@
 					$fin = $fin - 1;
 			}
 
+			return $tab ;
+		}
+		else
+			return null;
+	}
+
+
+
+	function melangerParNiveaux(int $idTournoi)
+	{
+
+		$tabEquipesTournoi = getAllEquipesByNiveau($idTournoi);
+		if(sizeof($tabEquipesTournoi)>0)
+		{
+			$nbEquipes = getNbEquipesTournoiWithId($idTournoi);
+			$tab = array($nbEquipes) ;
+
+			$debTab = 0 ;
+			$finTab = $nbEquipes -1 ;
+
+			$deb1 = 0 ;
+			$fin1 = $nbEquipes -1 ;
+
+			$nbPlaces = 0 ;
+	
+			while($debTab<$finTab)
+			{
+				$tab[$debTab] = $tabEquipesTournoi[$deb1]->getIdEquipe() ;
+				$tab[$finTab] = $tabEquipesTournoi[$deb1+1]->getIdEquipe() ;
+
+				++$debTab;
+				--$finTab;
+				$nbPlaces+=2;
+
+				if($debTab<$finTab)
+				{
+					$tab[$debTab] = $tabEquipesTournoi[$fin1]->getIdEquipe() ;
+					$tab[$finTab] = $tabEquipesTournoi[$fin1-1]->getIdEquipe() ;
+					$nbPlaces+=2;
+
+					++$debTab;
+					--$finTab;
+
+					$deb1+=2 ;
+					$fin1-=2 ;
+				}
+			}
+
+			if($debTab==$finTab && $nbPlaces<$nbEquipes)
+				$tab[$debTab] = $tabEquipesTournoi[$deb1]->getIdEquipe() ;
+			
 			return $tab ;
 		}
 		else
