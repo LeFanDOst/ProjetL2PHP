@@ -102,7 +102,7 @@
 						}
 						?>
 						<li class="itemMenu"><a class="lien" href="php/APropos.php">À Propos</a></li>
-						<li class="itemMenu"><a class="lien" href="#">Contact</a></li>
+						<li class="itemMenu"><a class="lien" href="php/Contact.php">Contact</a></li>
 						
 					</ul>
 				</div>
