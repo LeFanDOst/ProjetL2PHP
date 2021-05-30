@@ -153,6 +153,14 @@
 				echo'</table>';
 				echo '</div>
 				<div class="bouton">';
+
+				if(sizeof($tabEquipesTournoi)==0)
+				{
+					echo'
+					<form action="StatutTournoisAVenir.php" method="post">
+					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Pré-remplir équipes</button>
+					</form>';
+				}
 				
 				if(($nbEquipesInscrites != $nbEquipesTotal))
 				{
@@ -161,21 +169,21 @@
 					<button type"submit" id="btn1" name="inscriptions" value="" style="margin-bottom:1%">Consulter/modifier inscriptions</button>
 					</form>';
 				}
-				
-				if(sizeof($tabMatchs) != ($nbEquipesTotal * ($nbEquipesTotal-1) / 2))
-				{
-					echo sizeof($tabMatchs);
-					
-					echo'
-					<form action="SaisieDateChampionnat.php" method="post">
-					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
-					</form>';
-				}
 				else
 				{
-					echo'<form action="SaisieMatchsChampionnat.php" method="post">
-					<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
-					</form>';
+					if(sizeof($tabMatchs) != ($nbEquipesTotal) * ($nbEquipesTotal-1) / 2)
+					{					
+						echo'
+						<form action="SaisieDateChampionnat.php" method="post">
+						<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
+						</form>';
+					}
+					else
+					{
+						echo'<form action="SaisieMatchsChampionnat.php" method="post">
+						<button type="submit" id="btn2" name="setDate" value="">Saisir / Consulter Matchs</button>
+						</form>';
+					}
 				}
 			?>
 			<form action="Tournois.php" method="post">

@@ -156,6 +156,7 @@ $tournoi = getTournoi($id);
 				echo'</table>';
 				echo '</div>
 				<div class="bouton">';
+				
 
 				if(sizeof($tabEquipesTournoi)==0)
 				{

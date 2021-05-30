@@ -94,9 +94,11 @@
 		
 		$nbEqGagnantes += 2;
 	}
-	
-	while(!puissanceDe2($nbEqGagnantes))
-		++$nbEqGagnantes;
+	if($nbEqGagnantes>0)
+	{
+		while(!puissanceDe2($nbEqGagnantes) )
+			++$nbEqGagnantes;
+	}
 	
 	$nbMatchsGagnants = (($nbEqGagnantes / 2) + 1);
 	

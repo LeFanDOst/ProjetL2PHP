@@ -32,7 +32,7 @@
 	
 	$champChoixGestionnaire = "<div>
 	<select id=\"Gestionnaire\" name=\"Gestionnaire\">
-		<option value=\"\">Choisir un gestionnaire</option>";
+		<option value=\"\">Choix gestionnaire</option>";
 	
 	for($i=0;$i<count($tabGestionnaires);++$i)
 	{
@@ -45,39 +45,45 @@
 	
 	$champChoixGestionnaire = $champChoixGestionnaire."</select>
 	</div>";
+	$message_error = "";
 
 	if(isset($_POST) && isset($_POST['envoiValeurs']))
 	{
-		$strTemp = strval($_POST['ChoixVille']);
-		$tabTemp = explode("(", $strTemp);
-		
-		$nomVilleTemp = strval($tabTemp[0]);
-		$posTemp = strval($tabTemp[1]);
-		$posTemp2 = strval(explode(")", $posTemp)[0]);
-		$tabPosTemp = explode(";", $posTemp2);
-		
-		$nomVille = strval(explode(" ", $nomVilleTemp)[0]);
-		
-		$posXTemp = strval($tabPosTemp[0]);
-		$posYTemp = strval($tabPosTemp[1]);
-		
-		if(!$posXTemp)
-			trigger_error("ERREUR : Localisation non définie.");
-		
-		if(!$posYTemp)
-			trigger_error("ERREUR : Localisation non définie.");
-		
-		$posX = floatval($posXTemp);
-		$posY = floatval($posYTemp);
-		
-		$nbEquipes = $_POST['nombreTotalEquipes'] ;
-		
-		creerTournoi(strval($_POST['nom']),$_POST['dateDeb'], $_POST['duree'],$_POST['Gestionnaire'], strval($_POST['ChoixVille']),$_POST['nombreTotalEquipes']);
-
-		if(isset($_POST['type']) && $_POST['type']!="")
+		if($_POST['type']!="" && $_POST['Gestionnaire']!="")
 		{
+			$strTemp = strval($_POST['ChoixVille']);
+			$tabTemp = explode("(", $strTemp);
+			
+			$nomVilleTemp = strval($tabTemp[0]);
+			$posTemp = strval($tabTemp[1]);
+			$posTemp2 = strval(explode(")", $posTemp)[0]);
+			$tabPosTemp = explode(";", $posTemp2);
+			
+			$nomVille = strval(explode(" ", $nomVilleTemp)[0]);
+			
+			$posXTemp = strval($tabPosTemp[0]);
+			$posYTemp = strval($tabPosTemp[1]);
+			
+			if(!$posXTemp)
+				trigger_error("ERREUR : Localisation non définie.");
+			
+			if(!$posYTemp)
+				trigger_error("ERREUR : Localisation non définie.");
+			
+			$posX = floatval($posXTemp);
+			$posY = floatval($posYTemp);
+			
+			$nbEquipes = $_POST['nombreTotalEquipes'] ;
+			
+			creerTournoi(strval($_POST['nom']),$_POST['dateDeb'], $_POST['duree'],$_POST['Gestionnaire'], strval($_POST['ChoixVille']),$_POST['nombreTotalEquipes']);
+
+			
 			$idT = getIdTournoiByName($_POST['nom']) ;
 			insertType($idT,$_POST['type']);
+		}
+		else
+		{
+			$message_error = "<p style=\"color:red\">ATTENTION ! Il faut choisir un type de tournoi et un gestionnaire !</p>";
 		}
 	}
 
@@ -103,7 +109,7 @@
 				margin: 15px 0;
 				border: none;
 				cursor: pointer;
-				width: 100%;
+				width: 70%;
 				opacity: 0.9;
 				border-radius:5px;
 			}
@@ -146,8 +152,11 @@
 		</div>
 		
 		<h2 style="text-align:center">Création d'un tournoi</h2> 
+		<?php
+		echo $message_error;
+		?>
 		
-		<div id="container">
+		<div id="container" style="margin-bottom:50px">
 			<form action="CreerTournoi.php" method="post">
 				<p>
 					<label for="nom"><b>Nom</b></label>
@@ -167,9 +176,9 @@
 					<label for="dateDeb"><b>Date de début</b></label>
 					    <input type="date" name="dateDeb" id="dateDeb" onclick="minDate()" required/><br />
 					    <hr>
-					
+
 					<select id="Gestionnaire" name="type">
-						<option value="">Choisir un type de Tournois</option>
+						<option value="">Type de Tournoi</option>
 						<option value="Championnat">Championnat</option>
 						<option value="Coupe">Coupe</option>
 						<option value="Tournoi">Tournoi</option>
@@ -179,8 +188,6 @@
 					<?php
 					echo $champChoixGestionnaire;
 					?>
-					
-					<!--<input type="text" name="descriptif" id="descriptif" placeholder="Bref descriptif du tournoi"/><br />-->
 					
 					<button type="submit" class="btn"  name="envoiValeurs" value="Envoyer">Créer</button> 
 				</p>
