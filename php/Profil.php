@@ -34,7 +34,7 @@
 	$gest = 0 ;
 
 	if($estAdministrateur)
-		$tabTournoisAdmin = getAllTournoi();
+		$tabTournoisAdmin = getAllTournoibyDate();
 	elseif($estGestionnaire)
 	{
 		$gest = getGestionnaire($id);
@@ -43,9 +43,6 @@
 	elseif(!$estJoueur) {
 		$estUtilisateur = true ;
 	}
-
-		
-	
 
 	if(isset($_POST['envoiValeurs']) && strval($_POST['idT'])!=null)
 	{   
@@ -105,6 +102,8 @@
 
 			if($estGestionnaire)
 				echo  '<tr><th style="text-align:center">Role</th><th>Gestionnaire</th></tr>';
+			elseif($estAdministrateur)
+				echo  '<tr><th style="text-align:center">Role</th><th>Administrateur</th></tr>';
 			elseif($estJoueur)
 			{
 				$joueur = getJoueur($id);
@@ -139,12 +138,11 @@
 						echo '<div id="tab2">';
 						echo '<table>
 						<tr>
-						</th></tr>';
+						</th></tr>
+						<th>ID</th>';
 						if($estAdministrateur)
 							echo'<th>Gestionnaire</th>';
-						echo'
-						<th>ID</th>
-						<th>Nom</th>
+						echo'<th>Nom</th>
 						<th>Lieu</th>
 						<th>Début</th>
 						<th>Fin</th>
