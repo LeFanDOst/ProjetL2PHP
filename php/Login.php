@@ -72,7 +72,7 @@
 			</form>
 			
 			<div class="container">
-				<p>Pas encore de compte ? <a href="Register.php">Inscrivez-vous</a>.</p>
+				<p>Pas encore de compte ? <a href="InscriptionChoixRole.php">Inscrivez-vous</a>.</p>
 			</div>
 		</div>
 	</body>

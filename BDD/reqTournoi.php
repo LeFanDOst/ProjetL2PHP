@@ -113,10 +113,10 @@
 		
 		$connexion->close();
 		
-		unset($_POST);
+		//unset($_POST);
 		
-		header('Location: ../php/CreerTournoi.php');
-		exit();
+		//header('Location: ../php/CreerTournoi.php');
+		//exit();
     }
 	
 	function estTournoi(string $id)
@@ -389,5 +389,38 @@
 		}
 		
 		return $tabTournois;
+	}
+
+
+	function getIdTournoiByName(string $nom)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "SELECT idTournoi FROM Tournoi WHERE nom = \"$nom\";";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+
+		$objTemp = $res->fetch_object();
+		$id = strval($objTemp->idTournoi);
+		
+		$connexion->close();
+
+		return $id ;
+		
+	
 	}
 ?>

@@ -1,7 +1,7 @@
 <?php
 	include_once('reqUtilisateur.php');
 	include_once(realpath(dirname(__FILE__)).'/../module/Utilisateur.php');
-	include_once(realpath(dirname(__FILE__)).'/../module/Joueur.php');
+    include_once(realpath(dirname(__FILE__)).'/../module/Joueur.php');
 	
 	function insertJoueur(string $nom, string $prenom, string $email, string $mdp, string $confirmation, string $role, string $idEquipe, bool $estCapitaine)
 	{

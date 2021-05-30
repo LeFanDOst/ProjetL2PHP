@@ -1,6 +1,7 @@
 <?php
 	include_once('../BDD/reqTournoi.php');
 	include_once('../BDD/reqGestionnaire.php');
+	include_once('../BDD/reqType.php');
 	
 	session_start();	
 	if(!isset($_SESSION['login']))
@@ -16,14 +17,7 @@
 	}
 	
 	$ut = getUtilisateurWithEmail($_SESSION['login']);
-	/*
-	if(!estGestionnaire($ut->getIdUtilisateur()))
-	{
-		trigger_error("Vous n'êtes pas un gestionnaire.");
-		header('Location: ../index.php');
-		exit();
-	}
-	*/
+
 
 	$estAdministrateur = ($ut->getRole() === "Administrateur");
 	
@@ -79,8 +73,14 @@
 		$nbEquipes = $_POST['nombreTotalEquipes'] ;
 		
 		creerTournoi(strval($_POST['nom']),$_POST['dateDeb'], $_POST['duree'],$_POST['Gestionnaire'], strval($_POST['ChoixVille']),$_POST['nombreTotalEquipes']);
+
+		if(isset($_POST['type']) && $_POST['type']!="")
+		{
+			$idT = getIdTournoiByName($_POST['nom']) ;
+			insertType($idT,$_POST['type']);
+		}
 	}
-	
+
 	$_POST = array();
 	
 ?>

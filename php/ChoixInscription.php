@@ -22,8 +22,8 @@
 	if(!estGestionnaire($ut->getIdUtilisateur()))
 	{
 		trigger_error("Vous n'êtes pas un gestionnaire de tournoi.");
-		/*header('Location: index.php');
-		exit();*/
+		header('Location: ../index.php');
+		exit();
 	}
 	
 	$gestionnaire = getGestionnaire($ut->getIdUtilisateur());

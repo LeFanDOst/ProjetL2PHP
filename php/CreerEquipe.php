@@ -75,7 +75,9 @@
 			<label for="NumTel"><b>Numéro de téléphone</b></label>
 			<br/>
 			<input type="tel" placeholder="Motif 06-06-06-06-06" id="NumTel" name="NumTel" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" required>
-			<br/>			
+			<br/>	
+			
+					
 			<button type="submit" class="registerbtn" name="envoiValeurs" value="Envoyer">Créer</button>
 		</form>
 		
