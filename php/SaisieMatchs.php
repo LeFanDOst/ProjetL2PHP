@@ -53,9 +53,9 @@ $id = $ut->getIdUtilisateur();
 	$tabEquipesDejaChoisies = getAllEquipesWithMatchT($id);
 	$tabEquipesPasChoisies = getAllEquipesNoMatchT($id);
 	
-	if(isset($_POST['melanger']) && sizeof($tabEquipesPasChoisies)!=0)
+	if(isset($_POST['melangerParNiveaux']) && sizeof($tabEquipesPasChoisies)!=0)
 	{
-		$tabMelange = melanger($id);
+		$tabMelange = melangerParNiveaux($id);
 		for($i=0;$i<$nbEquipesTotal/2;++$i)
 		{
 			insertEquipeMatchT($tabMatchs[$i]->getIdMatchT(),$tabMelange[2*$i],$tabMelange[2*$i+1]);
@@ -85,6 +85,7 @@ $id = $ut->getIdUtilisateur();
 <body>
 	<div class="bandeau-haut">
 		<?php 
+		//Mettre un récapitulatif
 			echo'<h1>'.$tournoi->getNom().'</h1>';
 		?>
 	</div>
@@ -113,8 +114,6 @@ $id = $ut->getIdUtilisateur();
 		$z = 0 ;
 		for($i=0;$i<sizeof($tabEquipesDejaChoisies);$i = $i + 2)
 		{
-			//$nom1 = $tabEquipesDejaChoisies[$i]->getNomEquipe();
-			//$nom2 = $tabEquipesDejaChoisies[$i+1]->getNomEquipe();
 			$doubleTable = getEquipesMatchT($tabMatchs[$indexMatch-1]->getIdMatchT()) ;
 
 			$e1 = getEquipe($doubleTable[0]->getIdEquipe());
@@ -122,7 +121,7 @@ $id = $ut->getIdUtilisateur();
 			$nom1=$e1->getNomEquipe();
 			$nom2=$e2->getNomEquipe();
 
-			echo '<tr><td style="font-weight: bold">Match n°'.$indexMatch.'</td><td>'.$nom1.'</td><td>'.$nom2.'</td><td>'.date("d/m/Y",strtotime($tabMatchs[$indexMatch-1]->getDate())).' '.$tabMatchs[$indexMatch-1]->getHoraire().'</td><td>Validé<td></tr>';
+			echo '<tr><td style="font-weight: bold">Match n°'.$indexMatch.'</td><td>'.$nom1.' (niv.'.$e1->getNiveau().')</td><td>'.$nom2.' (niv.'.$e2->getNiveau().')</td><td>'.date("d/m/Y",strtotime($tabMatchs[$indexMatch-1]->getDate())).' '.$tabMatchs[$indexMatch-1]->getHoraire().'</td><td>Validé<td></tr>';
 				++$indexMatch ;
 		}
 
@@ -189,7 +188,7 @@ $id = $ut->getIdUtilisateur();
 		{
 			echo '
 			<form action="SaisieMatchs.php" method="post">
-				<button type="submit" id="btn2" name="melanger" value="" style="margin:auto">Melanger</button>
+				<button type="submit" id="btn2" name="melangerParNiveaux" value="" style="margin:auto">Melanger par Niveaux</button>
 			</form>';
 		}
 		?>
@@ -197,6 +196,5 @@ $id = $ut->getIdUtilisateur();
 			<button type="submit" id="btn2" value="">Retour</button>
 		</form>
 	</div>
-
 </body>
 </html>
