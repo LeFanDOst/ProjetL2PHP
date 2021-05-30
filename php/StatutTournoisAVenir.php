@@ -74,6 +74,19 @@ $tournoi = getTournoi($id);
 
 	}
 
+	if(isset($_POST['remplissage']))
+	{
+		$tabEquipesInscription = getAllEquipesByNiveauWithoutId() ;
+		$z = 0 ;
+		for($i=0;$i<$tournoi->getNombreTotalEquipes();++$i)
+		{
+			$equipe = $tabEquipesInscription[$i] ;
+			insertEquipeTournoi($equipe->getIdEquipe(),$id,1) ;
+		}
+		unset($_POST);
+		header('Refresh:0; url=StatutTournoisAVenir.php');	
+	}
+
 ?>
 
 <!DOCTYPE html>
@@ -132,6 +145,7 @@ $tournoi = getTournoi($id);
 			
 				}
 				echo '<tr><th colspan="2">';
+				
 				if($nbEquipesInscrites==$nbEquipesTotal)//date
 				{
 					echo '<p style="text-align:center">- Inscriptions terminées -</p>';
@@ -143,25 +157,13 @@ $tournoi = getTournoi($id);
 				echo '</div>
 				<div class="bouton">';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+				if(sizeof($tabEquipesTournoi)==0)
+				{
+					echo'
+					<form action="StatutTournoisAVenir.php" method="post">
+					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Pré-remplir équipes</button>
+					</form>';
+				}
 
 				if($nbEquipesInscrites!=$nbEquipesTotal)
 				{
