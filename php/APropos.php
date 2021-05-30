@@ -35,7 +35,7 @@
 			</h1>
 			<hr>
 			<h2>bienvenu sur notre sites de gestion de tournois sportif voici quelque information utile / importante pour comprendre comment correctement utilisé ce site.</h2>
-			<p>dans un premier temps nous vous invitons a vous <a href="./Inscription.php" >créer un compte</a> adapté a ce que vous voulez faire :</p>
+			<p>dans un premier temps nous vous invitons a vous <a href="./Register.php" >créer un compte</a> adapté a ce que vous voulez faire :</p>
 			<ul>
 					<li> utilisateur si vous voulez voir l'avancement des tournois</li>
 					<li>joueur si vous voulez rentrer dans une équipe et prendre par au tournois</li>
