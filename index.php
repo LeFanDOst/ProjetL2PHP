@@ -101,7 +101,7 @@
 							echo'<li class="itemMenu"><a class="lien" href="php/Preinscription.php">Préinscription</a></li>';
 						}
 						?>
-						<li class="itemMenu"><a class="lien" href="#">À Propos</a></li>
+						<li class="itemMenu"><a class="lien" href="php/APropos.php">À Propos</a></li>
 						<li class="itemMenu"><a class="lien" href="#">Contact</a></li>
 						
 					</ul>
