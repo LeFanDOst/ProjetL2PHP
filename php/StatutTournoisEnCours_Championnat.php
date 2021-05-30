@@ -67,32 +67,6 @@
         unset($_POST);
     }
 
-
-
-    if(isset($_POST['classement'])){
-		for($i=0;$i<sizeof($tabEquipesMatchT);$i+=2)
-		{
-			$matchTemp = $tabEquipesMatchT[$i] ;
-			$equipe = getEquipe($matchTemp->getIdEquipe());
-
-			if(estMatchNull($matchTemp->getIdMatchT()))
-			{
-				UpdateNiveauEquipe($tabEquipesMatchT[$i]->getIdEquipe(),2);
-				UpdateNiveauEquipe($tabEquipesMatchT[$i+1]->getIdEquipe(),2);
-			}
-			else
-			{
-				$id1 = getIdEquipeGagnante($matchTemp->getIdMatchT());
-				$id2 = getIdEquipePerdante($matchTemp->getIdMatchT());
-
-				UpdateNiveauEquipe($id1,4);
-				UpdateNiveauEquipe($id2,1);
-			}	
-		}
-        header('Refresh:0; url=StatutTournoisEnCours_Championnat.php');
-        unset($_POST);
-    }
-
 ?>
 
 <!DOCTYPE html>
@@ -171,13 +145,6 @@
 			{
 				if($tabEquipesMatchT[$i]->getScore()==-1)
 					$bool = false ;
-			}
-			if($bool && getEquipe($tabEquipesMatchT[0]->getIdEquipe())->getNiveau()==0 )//Si tous les scores ont été saisis
-			{
-				echo'<form action="StatutTournoisEnCours_Championnat.php" method="post">
-				<button type"submit" id="btn1" name="classement" value="update">Actualiser classement</button>
-				</form>';
-
 			}
 		?>
 	</div>

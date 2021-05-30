@@ -62,7 +62,6 @@
 				insertEquipeMatchT($tabMatchs[$index]->getIdMatchT(),$tabEquipes[$i]->getIdEquipe(),$tabEquipes[$j]->getIdEquipe());
 				++$index;
 			}
-			UpdateNiveauEquipe($tabEquipes[$i]->getIdEquipe(),0);
 		}
 		header('Refresh:0; url=SaisieMatchsChampionnat.php');
 		unset($_POST);

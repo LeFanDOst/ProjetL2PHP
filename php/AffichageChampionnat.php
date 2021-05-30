@@ -143,9 +143,10 @@
 		for($i=0;$i<sizeof($tabEquipesTournoi);++$i)
 		{
 			$equipe = getEquipe($tabEquipesTournoi[$i]->getIdEquipe());
+			$points = $tabClassement[$i][0]*4 + $tabClassement[$i][1] + $tabClassement[$i][2]*2 ;
 			echo'<tr>
 			<td>'.$equipe->getNomEquipe().'</td>
-			<td>'.$equipe->getNiveau().'</td>
+			<td>'.$points.'</td>
 			<td>'.$tabClassement[$i][0].'</td>
 			<td>'.$tabClassement[$i][1].'</td>
 			<td>'.$tabClassement[$i][2].'</td>
