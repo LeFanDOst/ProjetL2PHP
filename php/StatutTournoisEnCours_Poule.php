@@ -57,6 +57,13 @@
 		}
 	}
 	
+	$toutesPoulesTerminees = true;
+	
+	for($i=0;$i<sizeof($tabPoules);++$i)
+		$toutesPoulesTerminees = (($toutesPoulesTerminees) && (pouleTerminee($tabPoules[$i])));
+	
+	//$tasMaxPhasesFinales = new TasMax
+	
 	$_POST = array();
 ?>
 
