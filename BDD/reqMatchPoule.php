@@ -3,7 +3,7 @@
 	include_once(realpath(dirname(__FILE__)).'/../module/MatchPoule.php');
 	include_once(realpath(dirname(__FILE__)).'/../module/Poule.php');
 	
-	function insertMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score)
+	function insertMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score1, int $score2)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -14,7 +14,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "INSERT INTO MatchPoule VALUES($idEquipe1, $idEquipe2, $idMatchT, $score);";
+		$requete = "INSERT INTO MatchPoule VALUES($idEquipe1, $idEquipe2, $idMatchT, $score1, $score2);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -22,10 +22,10 @@
 		
 		$connexion->close();
 		
-		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score1, $score2);
 	}
 	
-	function updateScoreMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score)
+	function updateScoreMatchPoule(int $idEquipe1, int $idEquipe2, int $idMatchT, int $score1, int $score2)
 	{
 		include('DataBaseLogin.inc.php');
 		
@@ -36,7 +36,7 @@
 			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
 		}
 		
-		$requete = "UPDATE MatchPoule SET score = $score WHERE idEquipe1 = $idEquipe1 AND idEquipe2 = $idEquipe2 AND idMatchT = $idMatchT;";
+		$requete = "UPDATE MatchPoule SET score1 = $score1, score2 = $score2 WHERE idEquipe1 = $idEquipe1 AND idEquipe2 = $idEquipe2 AND idMatchT = $idMatchT;";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
@@ -44,7 +44,7 @@
 		
 		$connexion->close();
 		
-		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score1, $score2);
 	}
 	
 	function estMatchPoule(string $idEquipe1, string $idEquipe2, string $idMatchT)
@@ -118,7 +118,8 @@
 		$idEquipe1 = intval(strval($objTemp->idEquipe1));
 		$idEquipe2 = intval(strval($objTemp->idEquipe2));
 		$idMatchT = intval(strval($objTemp->idMatchT));
-		$score = intval(strval($objTemp->score));
+		$score1 = intval(strval($objTemp->score1));
+		$score2 = intval(strval($objTemp->score2));
 		
 		$connexion->close();
 		
@@ -131,7 +132,7 @@
 		if(empty(strval($idMatchT)))
 			return NULL;
 		
-		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score);
+		return new MatchPoule($idEquipe1, $idEquipe2, $idMatchT, $score1, $score2);
 	}
 
 	function getAllMatchPoule()

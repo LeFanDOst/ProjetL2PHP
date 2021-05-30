@@ -38,8 +38,72 @@
 	$tournoi = getTournoi($id);
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	
-	$tabMatchPoules = getAllMatchPouleTournoi($tournoi->getIdTournoi());
 	$tabPoules = getAllPouleTournoi($tournoi->getIdTournoi());
+	
+	$estBon = true;
+	$nbMatchPoule = 0;
+	
+	$tabMatchPoulesVerif = getAllMatchPouleTournoi($tournoi->getIdTournoi());
+	
+	for($i=0;$i<sizeof($tabPoules);++$i)
+	{
+		$nbEq = $tabPoules[$i]->getNbEquipes();
+		
+		$nbMP = ((($nbEq - 1) * $nbEq) / 2);
+		
+		$nbMatchPoule += $nbMP;
+	}
+	
+	echo $nbMatchPoule;
+	echo sizeof($tabMatchPoulesVerif);
+	
+	if($nbMatchPoule > sizeof($tabMatchPoulesVerif))
+	{
+		for($i=0;$i<sizeof($tabPoules);++$i)
+		{
+			echo $i;
+			$tabEqPoule = getAllEquipePouleWithIdPoule($tabPoules[$i]->getIdPoule());
+			$poule = $tabPoules[$i];
+					
+			if(sizeof($tabEqPoule) == $poule->getNbEquipes())
+			{
+				$tabTemp = array();
+				
+				for($j=0;$j<sizeof($tabEqPoule);++$j)
+				{
+					for($k=0;$k<sizeof($tabEqPoule);++$k)
+					{
+						if($k != $j)
+						{
+							if(!combinaisonDejaPresente($tabTemp, $tabEqPoule[$j]->getIdEquipe(), $tabEqPoule[$k]->getIdEquipe()))
+							{
+								$tt = array();
+								
+								array_push($tt, $tabEqPoule[$j]->getIdEquipe());
+								array_push($tt, $tabEqPoule[$k]->getIdEquipe());
+								
+								array_push($tabTemp, $tt);
+							}
+						}
+					}
+				}
+				
+				$tabMatchT = getAllMatchT($tournoi->getIdTournoi());
+				
+				for($j=0;$j<sizeof($tabTemp);++$j)
+				{
+					$tt = $tabTemp[$j];
+					
+					$idE1 = $tt[0];
+					$idE2 = $tt[1];
+					
+					$temp = insertMatchPoule($idE1, $idE2, $tabMatchT[$j]->getIdMatchT(), -1, -1);
+				}
+			}
+		}
+	}
+	
+	$tabMatchPoules = getAllMatchPouleTournoi($tournoi->getIdTournoi());
 	$tabEquipes = getAllEquipeOfTournoi($tournoi->getIdTournoi());
 ?>
 

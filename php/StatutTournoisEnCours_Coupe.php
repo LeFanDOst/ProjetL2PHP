@@ -46,7 +46,13 @@
 	{
 		for($i=0;$i<sizeof($tabMatchPoules);++$i)
 		{
-			updateScoreMatchPoule($tabMatchPoules[$i]->getIdEquipe1(), $tabMatchPoules[$i]->getIdEquipe2(), $tabMatchPoules[$i]->getIdMatchT(), rand(1, 15));
+			$score1 = rand(1, 15);
+			$score2 = rand(1, 15);
+			
+			while($score2 === $score1)
+				$score2 = rand(1, 15);
+			
+			updateScoreMatchPoule($tabMatchPoules[$i]->getIdEquipe1(), $tabMatchPoules[$i]->getIdEquipe2(), $tabMatchPoules[$i]->getIdMatchT(), $score1, $score2);
 			header('Refresh:0; url=StatutTournoisEnCours_Coupe.php');
 		}
 	}
@@ -95,7 +101,8 @@
 							<th rowspan=\"1\">Matchs</th>
 							<th>Equipe A</th>
 							<th>Equipe B</th>
-							<th>Score</th>
+							<th>Score 1</th>
+							<th>Score 2</th>
 						</tr>";
 					
 					for($j=0;$j<sizeof($tabMatchPoules);++$j)
@@ -110,7 +117,8 @@
 						
 						$matchT = getMatchT($tabMatchPoules[$j]->getIdMatchT());
 						
-						$scoreMatchPoules = $tabMatchPoules[$j]->getScore();
+						$scoreMatchPoules1 = $tabMatchPoules[$j]->getScore1();
+						$scoreMatchPoules2 = $tabMatchPoules[$j]->getScore2();
 						
 						$pouleCourante = getPouleWithMatchPoule($tabMatchPoules[$j]);
 						
@@ -119,7 +127,8 @@
 							echo "<tr><td>$matchCourant</td>
 							<td>$nomEquipeA</td>
 							<td>$nomEquipeB</td>
-							<td>$scoreMatchPoules</td>";
+							<td>$scoreMatchPoules1</td>
+							<td>$scoreMatchPoules2</td>";
 						}
 					}
 					
