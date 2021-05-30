@@ -61,7 +61,7 @@
 	{
 		$idmatch = $tabMatchs[$i]->getIdMatchT();
 		$equipematch = getEquipesMatchT($idmatch);
-		sizeof($equipematch);
+		//sizeof($equipematch);
 		
 		if(sizeof($equipematch)!=0)
 		{
@@ -76,7 +76,7 @@
 	
 	for($i=0;$i<sizeof($tabPoules);++$i)
 	{
-		echo $tabPoules[$i]->getIdPoule();
+		//echo $tabPoules[$i]->getIdPoule();
 		$tabEq = array();
 		$tabEq = getAllEquipeOfPoule($tabPoules[$i]->getIdPoule());
 		
@@ -84,13 +84,23 @@
 	}
 	
 	$nbMatchT = 0;
+	$nbEqGagnantes = 0;
 	
 	for($i=0;$i<sizeof($tabPoules);++$i)
 	{
 		$nbEq = $tabPoules[$i]->getNbEquipes();
 		
 		$nbMatchT += ((($nbEq - 1) * $nbEq) / 2);
+		
+		$nbEqGagnantes += 2;
 	}
+	
+	while(!puissanceDe2($nbEqGagnantes))
+		++$nbEqGagnantes;
+	
+	$nbMatchsGagnants = (($nbEqGagnantes / 2) + 1);
+	
+	$nbMatchT += $nbMatchsGagnants;
 
 	if(isset($_POST['inscriptions']))
 	{
@@ -204,7 +214,7 @@
 					$nbMaxEq = $tabPoules[$i]->getNbEquipes();
 					$nbEq = count($tabEq);
 					$idPouleCourante = $tabPoules[$i]->getIdPoule();
-					echo $idPouleCourante;
+					//echo $idPouleCourante;
 					
 					$formModifPoule = "<form action=\"StatutTournoisAVenir_Poule.php\" method=\"post\">
 					<button type\"submit\" name=\"ModifPoule\" value=\"$idPouleCourante\" style=\"margin-bottom:1%\" class=\"btn\">Affecter</button>

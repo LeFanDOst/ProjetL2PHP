@@ -258,4 +258,48 @@
 		
 		return new Poule($idPoule, $idTournoi, $nbEquipes);
 	}
+	
+	function getAllMatchPoulePoule(int $idPoule)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "
+		SELECT MP.*
+		FROM MatchPoule MP
+		INNER JOIN EquipePoule EP ON ((EP.idEquipe = MP.idEquipe1) OR (EP.idEquipe = MP.idEquipe2))
+		INNER JOIN Poule P ON P.idPoule = EP.idPoule
+		WHERE P.idPoule = $idPoule;";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbMatchPoule = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabMatchPoule = array();
+		
+		if($nbMatchPoule == 0)
+			return $tabMatchPoule;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabMatchPoule, getMatchPoule($obj->idEquipe1, $obj->idEquipe2, $obj->idMatchT));
+		}
+		
+		return $tabMatchPoule;
+	}
 ?>

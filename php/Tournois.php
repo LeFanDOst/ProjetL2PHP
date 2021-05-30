@@ -46,7 +46,7 @@
 			elseif(getTypeTournoi(strval($_POST['tournoiEnCours']))=="Tournoi")
 			{
 				$_SESSION['tournoiEnCours'] = strval($_POST['tournoiEnCours']) ;
-				header('Location: StatutTournoisEnCoursPoule.php');
+				header('Location: StatutTournoisEnCours_Poule.php');
 			}
 			else
 			{

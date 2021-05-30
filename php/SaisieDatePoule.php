@@ -7,6 +7,7 @@
 	include_once('../module/TasMax.php');
 	include_once('../BDD/reqMatchT.php');
 	include_once('../module/MatchT.php');
+	include_once('../module/FctGenerales.php');
 	
 	session_start();
 	
@@ -55,13 +56,23 @@
 	
 	$tabPoules = getAllPouleTournoi($TournoiEnGestion->getIdTournoi());
 	$nbMatchT = 0;
+	$nbEqGagnantes = 0;
 	
 	for($i=0;$i<sizeof($tabPoules);++$i)
 	{
 		$nbEq = $tabPoules[$i]->getNbEquipes();
 		
 		$nbMatchT += ((($nbEq - 1) * $nbEq) / 2);
+		
+		$nbEqGagnantes += 2;
 	}
+	
+	while(!puissanceDe2($nbEqGagnantes))
+		++$nbEqGagnantes;
+	
+	$nbMatchsGagnants = (($nbEqGagnantes / 2) + 1);
+	
+	$nbMatchT += $nbMatchsGagnants;
 	
 	if(isset($_POST) && isset($_POST['envoiValeurs']) && !(IsAlreadyProgrammed($_SESSION['tournoi'])))
 	{
@@ -101,10 +112,6 @@
 				text-align: center;
 				font-size:18px;
 			}
-
-
-
-
 		</style>
 	</head>
 	<body>

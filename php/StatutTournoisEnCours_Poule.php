@@ -90,7 +90,7 @@
 					echo"
 					<table>
 						<tr>
-							<th colspan=\"4\">
+							<th colspan=\"5\">
 								<h2 style=\"text-align:center; margin:5px\"> 
 									Poule N°$numPouleCourante
 								</h2>
