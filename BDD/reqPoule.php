@@ -204,4 +204,38 @@
 		
 		return $tabPoules;
 	}
+	
+	function getPouleWithEquipeAndTournoi(int $idEquipe, int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+		
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+		
+		$requete = "
+		SELECT *
+		FROM Poule
+		WHERE idTournoi = $idTournoi AND idPoule IN (
+													  SELECT idPoule
+													  FROM EquipePoule
+													  WHERE idEquipe = $idEquipe);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$connexion->close();
+		
+		$obj = $res->fetch_object();
+		return getPoule($obj->idPoule);
+	}
 ?>

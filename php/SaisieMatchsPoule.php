@@ -166,10 +166,12 @@
 						$dateMatchT = $matchT->getDate();
 						$horaireMatchT = $matchT->getHoraire();
 						
-						$pouleCourante = getPouleWithMatchPoule($tabMatchPoules[$j]);
+						//$pouleCourante = getPouleWithMatchPoule($tabMatchPoules[$j]);
+						$pouleCourante = getPouleWithEquipeAndTournoi($tabMatchPoules[$j]->getIdEquipe1(), $tournoi->getIdTournoi());
 						
 						if($pouleCourante->getIdPoule() == $tabPoules[$i]->getIdPoule())
 						{
+							echo "cc";
 							echo "<tr><td>$matchCourant</td>
 							<td>$nomEquipeA</td>
 							<td>$nomEquipeB</td>
