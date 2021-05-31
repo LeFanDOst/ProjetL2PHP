@@ -171,7 +171,6 @@
 						
 						if($pouleCourante->getIdPoule() == $tabPoules[$i]->getIdPoule())
 						{
-							echo "cc";
 							echo "<tr><td>$matchCourant</td>
 							<td>$nomEquipeA</td>
 							<td>$nomEquipeB</td>
