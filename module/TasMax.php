@@ -175,10 +175,34 @@
 			}
 		}
 
-		//Récupérer EquipeMatchT
 		public function Update(int $idTournoi)
 		{
 			$tabEquipesMatchT = getAllEquipeMatchT($idTournoi) ;
+			$size = sizeof($tabEquipesMatchT);
+	 		$indice = $this->m_nbCases-1 ;
+
+			for($i=$indice;$i>$indice-$size;--$i)
+			{
+				$this->m_tabMatchs[$i] = $tabEquipesMatchT[$indice-$i] ;
+				$this->m_tas[$i] = getEquipe(($tabEquipesMatchT[$indice-$i]->getIdEquipe())) ;
+			}
+			if($this->m_tabMatchs[1] && $this->m_tabMatchs[1]->getScore()!=-1)
+			{
+				$id = getIdEquipeGagnante($this->m_tabMatchs[1]->getIdMatchT()) ;
+				//echo "ID_MATCH:".$this->m_tabMatchs[1]->getIdMatchT() ;
+				//echo '<br ./>';
+				$eq = getEquipe($id) ;
+				//echo "ID_EQUIPE:".$eq->getIdEquipe();
+				//echo '<br ./>';
+				//echo "NOM_EQUIPE:".$eq->getNomEquipe();
+				$this->m_tas[0] = $eq;
+			}
+		}
+
+
+		public function UpdatePhasesFinales(int $idTournoi)
+		{
+			$tabEquipesMatchT = getAllEquipeMatchTSupA($idTournoi) ;
 			$size = sizeof($tabEquipesMatchT);
 	 		$indice = $this->m_nbCases-1 ;
 
