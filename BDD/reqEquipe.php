@@ -23,10 +23,8 @@
 		
 		$connexion->close();
 		
-		unset($_POST);
 		
-		header('Location: ../index.php');
-		exit();
+		return $idE;
 	}
 
 	function UpdateNiveauEquipe(int $idEquipe, int $niveau)
