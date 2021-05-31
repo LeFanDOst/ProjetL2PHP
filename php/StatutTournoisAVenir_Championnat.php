@@ -81,6 +81,19 @@
 		header('Location: Inscription.php');
 		exit();
 	}
+
+	if(isset($_POST['remplissage']))
+	{
+		$tabEquipesInscription = getAllEquipesByNiveauWithoutId() ;
+		$z = 0 ;
+		for($i=0;$i<$tournoi->getNombreTotalEquipes();++$i)
+		{
+			$equipe = $tabEquipesInscription[$i] ;
+			insertEquipeTournoi($equipe->getIdEquipe(),$id,1) ;
+		}
+		unset($_POST);
+		header('Refresh:0; url=StatutTournoisAVenir_Championnat.php');	
+	}
 ?>
 
 <!DOCTYPE html>
@@ -157,8 +170,8 @@
 				if(sizeof($tabEquipesTournoi)==0)
 				{
 					echo'
-					<form action="StatutTournoisAVenir.php" method="post">
-					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Pré-remplir équipes</button>
+					<form action="StatutTournoisAVenir_Championnat.php" method="post">
+					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Remplir équipes</button>
 					</form>';
 				}
 				

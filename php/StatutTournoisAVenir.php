@@ -156,13 +156,13 @@ $tournoi = getTournoi($id);
 				echo'</table>';
 				echo '</div>
 				<div class="bouton">';
-				
+
 
 				if(sizeof($tabEquipesTournoi)==0)
 				{
 					echo'
 					<form action="StatutTournoisAVenir.php" method="post">
-					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Pré-remplir équipes</button>
+					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Remplir équipes</button>
 					</form>';
 				}
 

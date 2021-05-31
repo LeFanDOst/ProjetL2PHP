@@ -62,6 +62,11 @@
 				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;
 				header('Location: statutTournoiPasses_Championnat.php');
 			}
+			elseif (getTypeTournoi(strval($_POST['tournoiPasse']))=="Tournoi") 
+			{
+				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;
+				header('Location: statutTournoiPasse_Poule.php');
+			}
 			else
 			{
 				$_SESSION['tournoiPasse'] = strval($_POST['tournoiPasse']) ;

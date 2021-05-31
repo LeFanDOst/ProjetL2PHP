@@ -41,11 +41,12 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<link rel="stylesheet" type="text/css" href="../css/stylePoule.css" />
 		<title>Créer une poule</title>
 	</head>
 	
 	<body>
+		<div class="cadre">
 		<h1>Créer une poule</h1>
 		
 		<form action="CreerPoule.php" method="post">
@@ -54,5 +55,6 @@
 			
 			<input type="submit" name="EnvoyerValeurs" value="EnvoyerValeurs">
 		</form>
+		</div>
 	</body>
 </html>

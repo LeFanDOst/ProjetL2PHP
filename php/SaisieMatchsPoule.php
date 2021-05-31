@@ -54,14 +54,12 @@
 		$nbMatchPoule += $nbMP;
 	}
 	
-	echo $nbMatchPoule;
-	echo sizeof($tabMatchPoulesVerif);
-	
 	if($nbMatchPoule > sizeof($tabMatchPoulesVerif))
 	{
+		$indice = 0 ;
 		for($i=0;$i<sizeof($tabPoules);++$i)
 		{
-			echo $i;
+	
 			$tabEqPoule = getAllEquipePouleWithIdPoule($tabPoules[$i]->getIdPoule());
 			$poule = $tabPoules[$i];
 					
@@ -97,7 +95,8 @@
 					$idE1 = $tt[0];
 					$idE2 = $tt[1];
 					
-					$temp = insertMatchPoule($idE1, $idE2, $tabMatchT[$j]->getIdMatchT(), -1, -1);
+					$temp = insertMatchPoule($idE1, $idE2, $tabMatchT[$indice]->getIdMatchT(), -1, -1);
+					++$indice ;
 				}
 			}
 		}

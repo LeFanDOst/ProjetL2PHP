@@ -70,7 +70,7 @@
 	while(!puissanceDe2($nbEqGagnantes))
 		++$nbEqGagnantes;
 	
-	$nbMatchsGagnants = (($nbEqGagnantes / 2) + 1);
+	$nbMatchsGagnants = $nbEqGagnantes-1;
 	
 	$nbMatchT += $nbMatchsGagnants;
 	

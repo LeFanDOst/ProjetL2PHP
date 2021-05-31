@@ -100,7 +100,7 @@
 			++$nbEqGagnantes;
 	}
 	
-	$nbMatchsGagnants = (($nbEqGagnantes / 2) + 1);
+	$nbMatchsGagnants = $nbEqGagnantes - 1;
 	
 	$nbMatchT += $nbMatchsGagnants;
 
@@ -116,6 +116,19 @@
 		$_SESSION["pouleCreee"] = intval(strval($_POST['ModifPoule']));
 		header('Location: AffecterEquipesPoule.php');
 		exit();
+	}
+
+	if(isset($_POST['remplissage']))
+	{
+		$tabEquipesInscription = getAllEquipesByNiveauWithoutId() ;
+		$z = 0 ;
+		for($i=0;$i<$tournoi->getNombreTotalEquipes();++$i)
+		{
+			$equipe = $tabEquipesInscription[$i] ;
+			insertEquipeTournoi($equipe->getIdEquipe(),$id,1) ;
+		}
+		unset($_POST);
+		header('Refresh:0; url=StatutTournoisAVenir_Poule.php');	
 	}
 ?>
 
@@ -189,56 +202,67 @@
 				echo'</th></tr>';
 				echo'</table>';
 				echo '</div>';
-				
-				echo "<div id=\"tabPoules\">
-				<table>
-					<tr>
-						<th colspan=\"4\">
-							<h2 style=\"text-align:center; margin:5px\"> 
-								Récapitulatif des poules
-							</h2>
-						</th>
-					</tr>
-					
-					<tr>
-						<th>Poule</th>
-						<th>Nombre maximal d'équipes</th>
-						<th>Nombre d'équipes</th>
-						<th>Ajouter des équipes</th>
-					</tr>";
-				
-				for($i=0;$i<count($tabPoules);++$i)
+
+				if(sizeof($tabPoules)>0)
 				{
-					$numCourant = ($i + 1);
-					
-					$tabEq = getAllEquipeOfPoule($tabPoules[$i]->getIdPoule());
-					
-					$nbMaxEq = $tabPoules[$i]->getNbEquipes();
-					$nbEq = count($tabEq);
-					$idPouleCourante = $tabPoules[$i]->getIdPoule();
-					//echo $idPouleCourante;
-					
-					$formModifPoule = "<form action=\"StatutTournoisAVenir_Poule.php\" method=\"post\">
-					<button type\"submit\" name=\"ModifPoule\" value=\"$idPouleCourante\" style=\"margin-bottom:1%\" class=\"btn\">Affecter</button>
-					</form>";
-					
-					echo "<tr>
-					<td>$numCourant</td>
-					<td>$nbMaxEq</td>
-					<td>$nbEq</td>";
-					
-					if($nbEq < $nbMaxEq)
-						echo "<td>$formModifPoule</td>";
-					else
-						echo "<td>-</td>";
-					
-					echo "</tr>";
+				
+					echo "<div id=\"tabPoules\">
+					<table>
+						<tr>
+							<th colspan=\"4\">
+								<h2 style=\"text-align:center; margin:5px\"> 
+									Récapitulatif des poules
+								</h2>
+							</th>
+						</tr>
+						
+						<tr>
+							<th>Poule</th>
+							<th>Nombre maximal d'équipes</th>
+							<th>Nombre d'équipes</th>
+							<th>Ajouter des équipes</th>
+						</tr>";
+
+					for($i=0;$i<count($tabPoules);++$i)
+					{
+						$numCourant = ($i + 1);
+						
+						$tabEq = getAllEquipeOfPoule($tabPoules[$i]->getIdPoule());
+						
+						$nbMaxEq = $tabPoules[$i]->getNbEquipes();
+						$nbEq = count($tabEq);
+						$idPouleCourante = $tabPoules[$i]->getIdPoule();
+						
+						$formModifPoule = "<form action=\"StatutTournoisAVenir_Poule.php\" method=\"post\">
+						<button type\"submit\" name=\"ModifPoule\" value=\"$idPouleCourante\" style=\"margin-bottom:1%\" class=\"btn\">Affecter</button>
+						</form>";
+						
+						echo "<tr>
+						<td>$numCourant</td>
+						<td>$nbMaxEq</td>
+						<td>$nbEq</td>";
+						
+						if($nbEq < $nbMaxEq)
+							echo "<td>$formModifPoule</td>";
+						else
+							echo "<td>-</td>";
+						
+						echo "</tr>";
+					}
 				}
 				
 				echo "</table>
 				</div>";
 				
 				echo '<div class="bouton">';
+
+				if(sizeof($tabEquipesTournoi)==0)
+				{
+					echo'
+					<form action="StatutTournoisAVenir_Poule.php" method="post">
+					<button type"submit" id="btn1" name="remplissage" value="" style="margin-bottom:1%">Remplir équipes</button>
+					</form>';
+				}
 
 				if($nbEquipesInscrites!=$nbEquipesTotal)
 				{
@@ -252,26 +276,26 @@
 				{
 					echo'
 					<form action="CreerPoule.php" method="post">
-					<button type"submit" name="setDate" value="" style="margin-bottom:1%" class=\"btn\">Créer des poules</button>
+					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Créer des poules</button>
 					</form>';
 				}
+				else 
+				{
+					if(sizeof($tabMatchs) != $nbMatchT)
+					{
+						echo'
+						<form action="SaisieDatePoule.php" method="post">
+						<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
+						</form>';
+					}
+					else
+					{
+						echo'<form action="SaisieMatchsPoule.php" method="post">
+						<button type="submit" id="btn2" name="setDate" value="">Consulter Matchs</button>
+						</form>';
+					}
 
-				if(sizeof($tabMatchs) != $nbMatchT)
-				{
-					echo sizeof($tabMatchs);
-					echo'
-					<form action="SaisieDatePoule.php" method="post">
-					<button type"submit" id="btn1" name="setDate" value="" style="margin-bottom:1%">Saisir Dates</button>
-					</form>';
 				}
-				else
-				{
-					echo'<form action="SaisieMatchsPoule.php" method="post">
-					<button type="submit" id="btn2" name="setDate" value="">Consulter Matchs</button>
-					</form>';
-				}
-				
-				
 			?>
 			
 			<form action="Tournois.php" method="post">

@@ -34,7 +34,7 @@
 		}
 	}
 	
-	$id = $_SESSION['tournoi'] ;
+	$id = $_SESSION['tournoiEnCours'] ;
 	$tournoi = getTournoi($id);
 	$tabEquipesTournoi = getEquipeTournoiWithIdTournoi($tournoi->getIdTournoi());
 	
@@ -60,9 +60,8 @@
 	$toutesPoulesTerminees = true;
 	
 	for($i=0;$i<sizeof($tabPoules);++$i)
-		$toutesPoulesTerminees = (($toutesPoulesTerminees) && (pouleTerminee($tabPoules[$i])));
+		$toutesPoulesTerminees = (($toutesPoulesTerminees) && (pouleTerminee($tabPoules[$i]->getIdPoule())));
 	
-	//$tasMaxPhasesFinales = new TasMax
 	
 	$_POST = array();
 ?>
@@ -133,9 +132,11 @@
 						{
 							echo "<tr><td>$matchCourant</td>
 							<td>$nomEquipeA</td>
-							<td>$nomEquipeB</td>
-							<td>$scoreMatchPoules1</td>
-							<td>$scoreMatchPoules2</td>";
+							<td>$nomEquipeB</td>";
+							if($scoreMatchPoules1==-1 && $scoreMatchPoules2==-1)
+								echo"<td>0</td><td>0</td>";
+							else
+								echo"<td>$scoreMatchPoules1</td><td>$scoreMatchPoules2</td>";
 						}
 					}
 					
@@ -143,10 +144,12 @@
 					</div>';
 				}
 			?>
-			
+			<form action="AffichagePoule.php" method="post">
+				<button type="submit" id="btn1" name="" value="">Classement</button>
+			</form>
 			<form action="StatutTournoisEnCours_Poule.php" method="post">
-				<input type="submit" name="EnvoyerValeurs" value="Saisir scores aléatoires">
-				<button type="submit" id="btn2" value="">Retour</button>
+				<button type="submit" id="btn2" name="EnvoyerValeurs" value="Saisir scores aléatoires" >Saisir scores aléatoires</button>
+				<button type="submit" id="btn2" value="" >Retour</button>
 			</form>
 		</div>
 	</body>
