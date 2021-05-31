@@ -126,7 +126,7 @@
 						$scoreMatchPoules1 = $tabMatchPoules[$j]->getScore1();
 						$scoreMatchPoules2 = $tabMatchPoules[$j]->getScore2();
 						
-						$pouleCourante = getPouleWithMatchPoule($tabMatchPoules[$j]);
+						$pouleCourante = getPouleWithEquipeAndTournoi($tabMatchPoules[$j]->getIdEquipe1(), $tournoi->getIdTournoi());
 						
 						if($pouleCourante->getIdPoule() == $tabPoules[$i]->getIdPoule())
 						{
