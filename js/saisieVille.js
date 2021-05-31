@@ -27,7 +27,7 @@ function retirerDoublons(tableau)
 }
 
 fct = function(el) {
-	var elem = el.srcElem;
+	var elem = el.srcElement;
 	
 	source.value = elem.innerHTML;
 }

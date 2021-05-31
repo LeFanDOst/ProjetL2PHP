@@ -392,7 +392,9 @@ FROM Equipe E
 INNER JOIN EquipeTournoi ET ON ET.idEquipe = E.idEquipe
 WHERE ET.idTournoi = $idTournoi AND E.idEquipe NOT IN (
                           SELECT EP.idEquipe
-                          FROM EquipePoule EP);";
+                          FROM EquipePoule EP
+						  INNER JOIN Poule P ON P.idPoule = EP.idPoule
+						  WHERE P.idTournoi = $idTournoi);";
 		
 		$res = $connexion->query($requete);
 		if(!$res)
