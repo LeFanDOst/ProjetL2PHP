@@ -120,6 +120,48 @@
 	}
 
 
+	function getAllEquipeMatchTSupA(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+
+		$id = getLastIdMatchPoule($idTournoi) ;
+
+		$requete = "SELECT EquipeMatchT.idMatchT,idEquipe FROM EquipeMatchT,MatchT WHERE EquipeMatchT.idMatchT=MatchT.idMatchT AND idTournoi=$idTournoi AND EquipeMatchT.idMatchT IN (SELECT idMatchT FROM MatchT WHERE idMatchT>$id);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbEquipesMatchT = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabEquipesMatchT = array();
+		
+		if($nbEquipesMatchT == 0)
+			return $tabEquipesMatchT;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabEquipesMatchT, getSingleEquipeMatchT($obj->idEquipe,$obj->idMatchT));
+		}
+		
+		return $tabEquipesMatchT;
+	}
+
+
 
 	function UpdateScore(int $idEquipe, int $idMatchT, int $score)
 	{

@@ -246,6 +246,49 @@
 	}
 
 
+	function getAllMatchTPhasesFinales(int $idTournoi)
+	{
+		include('DataBaseLogin.inc.php');
+		
+		$connexion = new mysqli($server, $user, $passwd, $db);
+	
+		if($connexion->connect_error)
+		{
+			echo('Erreur de connexion('.$connexion->connect_errno.') '.$connexion->connect_error);
+		}
+
+		$id = getLastIdMatchPoule($idTournoi) ;
+
+		$requete = "SELECT idMatchT FROM MatchT WHERE idTournoi = \"$idTournoi\" 
+		AND idMatchT IN (SELECT idMatchT FROM MatchT WHERE idMatchT>$id);";
+		
+		$res = $connexion->query($requete);
+		if(!$res)
+		{
+			die('Echec lors de l\'exécution de la requête: ('.$connexion->errno.') '.$connexion->error);
+			$connexion->close();
+			
+			return NULL;
+		}
+		
+		$nbMatchs = $res->num_rows;
+		
+		$connexion->close();
+		
+		$tabMatchT = array();
+		
+		if($nbMatchs == 0)
+			return $tabMatchT;
+		
+		while($obj = $res->fetch_object())
+		{
+			array_push($tabMatchT, getMatchT($obj->idMatchT));
+		}
+		
+		return $tabMatchT;
+	}
+
+
 	function getAllMatchTWithNoEquipeMatchT(int $idTournoi)
 	{
 		include('DataBaseLogin.inc.php');
